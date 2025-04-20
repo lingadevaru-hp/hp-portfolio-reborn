@@ -12,6 +12,7 @@ interface Repository {
   html_url: string;
   homepage: string;
   topics: string[];
+  fork: boolean; // Added the fork property
 }
 
 const ProjectsSection = () => {
