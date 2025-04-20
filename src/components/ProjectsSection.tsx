@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +11,7 @@ interface Repository {
   html_url: string;
   homepage: string;
   topics: string[];
-  fork: boolean; // Added the fork property
+  fork: boolean;
 }
 
 const ProjectsSection = () => {
@@ -32,7 +31,6 @@ const ProjectsSection = () => {
         
         const data = await response.json();
         
-        // Filter out forked repositories and sort by updated date
         const filteredProjects = data
           .filter((repo: Repository) => !repo.fork)
           .slice(0, 6);
@@ -41,7 +39,6 @@ const ProjectsSection = () => {
       } catch (err) {
         console.error("Error fetching projects:", err);
         setError("Failed to load projects. Please try again later.");
-        // Set fallback projects if GitHub API fails
         setProjects([
           {
             id: 1,
@@ -49,7 +46,8 @@ const ProjectsSection = () => {
             description: "Personal portfolio website built with React and Tailwind CSS",
             html_url: "#",
             homepage: "#",
-            topics: ["react", "typescript", "tailwindcss"]
+            topics: ["react", "typescript", "tailwindcss"],
+            fork: false
           },
           {
             id: 2,
@@ -57,7 +55,8 @@ const ProjectsSection = () => {
             description: "Full-stack e-commerce application with user authentication and payment processing",
             html_url: "#",
             homepage: "#",
-            topics: ["javascript", "node", "mongodb", "express"]
+            topics: ["javascript", "node", "mongodb", "express"],
+            fork: false
           },
           {
             id: 3,
@@ -65,7 +64,8 @@ const ProjectsSection = () => {
             description: "A task management application with drag-and-drop functionality",
             html_url: "#",
             homepage: "#",
-            topics: ["react", "redux", "firebase"]
+            topics: ["react", "redux", "firebase"],
+            fork: false
           }
         ]);
       } finally {

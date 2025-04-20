@@ -1,11 +1,13 @@
 
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,11 +27,11 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Skills", href: "/skills" },
+    { name: "Projects", href: "/projects" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -37,22 +39,26 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">
-            <a href="#home" className="text-xl font-bold gradient-text">
+            <Link to="/" className="text-xl font-bold gradient-text">
               Lingadevaru<span className="text-accent"> HP</span>
-            </a>
+            </Link>
           </div>
           
           {/* Desktop Menu */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  className="text-foreground/80 hover:text-primary transition-colors duration-300 text-sm font-medium"
+                  to={link.href}
+                  className={`text-sm font-medium transition-colors duration-300 ${
+                    location.pathname === link.href
+                      ? "text-primary"
+                      : "text-foreground/80 hover:text-primary"
+                  }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -80,14 +86,18 @@ const Navbar = () => {
         <div className="md:hidden bg-background/95 backdrop-blur-md">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                className="text-foreground block px-3 py-2 text-base font-medium hover:bg-secondary rounded-md"
+                to={link.href}
+                className={`block px-3 py-2 text-base font-medium rounded-md ${
+                  location.pathname === link.href
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground hover:bg-secondary rounded-md"
+                }`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
