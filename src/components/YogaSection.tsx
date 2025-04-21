@@ -14,7 +14,8 @@ import {
   GitBranch, 
   Code, 
   Network,
-  Lotus
+  Flower,
+  ArrowRight
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -272,7 +273,7 @@ const YogaSection = () => {
       delay: 0.3
     },
     {
-      icon: Lotus,
+      icon: Flower,
       title: "Yoga Practice",
       description: "Finding balance through yoga, integrating mind and body awareness into daily life and technical work.",
       colorClass: "bg-primary/10",
