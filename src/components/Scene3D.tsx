@@ -4,8 +4,6 @@ import { useRef } from "react";
 import { OrbitControls, Float, PerspectiveCamera, Center } from "@react-three/drei";
 import { Mesh, DoubleSide, Vector3, BoxGeometry, MeshStandardMaterial } from "three";
 import { motion } from "framer-motion";
-import { MotionValue } from "framer-motion";
-import { motion as motion3d } from "framer-motion-3d";
 
 // Create a component for each symbol using basic shapes instead of Text3D
 const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }) => {
@@ -118,22 +116,13 @@ const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }
       rotationIntensity={1.0}
       floatIntensity={2.0}
     >
-      <motion3d.group
+      <group
         ref={meshRef}
         position={position}
         scale={scale}
-        animate={{
-          y: [position[1] - 0.2, position[1] + 0.2, position[1] - 0.2],
-          rotateZ: [0, Math.PI * 2]
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
       >
         {getGeometry()}
-      </motion3d.group>
+      </group>
     </Float>
   );
 };
