@@ -76,8 +76,8 @@ const ProjectsSection = () => {
           id: 999999, // Unique ID
           name: "Academic Mirror",
           description: "Smart solution to view academic data at a glance. A streamlined platform for academic information management.",
-          html_url: "https://github.com/lingadevaru-hp/academic-mirror",
-          homepage: "https://academicsmirror.lingadevaru.in",
+          html_url: "https://github.com/lingadevaru-hp/academic-mirror-final",
+          homepage: "https://academic-mirror.lingadevaru.in",
           topics: ["react", "education", "dashboard", "academic-data"],
           fork: false
         };
