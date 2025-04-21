@@ -1,12 +1,13 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { OrbitControls, Float, PerspectiveCamera, Text3D, Center } from "@react-three/drei";
-import { Mesh, DoubleSide, Vector3 } from "three";
+import { OrbitControls, Float, PerspectiveCamera, Center } from "@react-three/drei";
+import { Mesh, DoubleSide, Vector3, BoxGeometry, MeshStandardMaterial } from "three";
 import { motion } from "framer-motion";
 import { MotionValue } from "framer-motion";
 import { motion as motion3d } from "framer-motion-3d";
 
+// Create a component for each symbol using basic shapes instead of Text3D
 const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }) => {
   const meshRef = useRef<Mesh>(null);
 
@@ -17,31 +18,122 @@ const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }
     }
   });
 
+  // Function to create geometric shapes based on the symbol
+  const getGeometry = () => {
+    switch(symbol) {
+      case "</>":
+        return (
+          <group scale={[0.7, 0.7, 0.7]}>
+            <mesh position={[-0.5, 0, 0]}>
+              <boxGeometry args={[0.1, 0.8, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0.5, 0, 0]}>
+              <boxGeometry args={[0.1, 0.8, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0, 0, 0]}>
+              <boxGeometry args={[0.8, 0.1, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+          </group>
+        );
+      case "{}":
+        return (
+          <group scale={[0.7, 0.7, 0.7]}>
+            <mesh position={[-0.4, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
+              <boxGeometry args={[0.1, 0.6, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[-0.4, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+              <boxGeometry args={[0.1, 0.6, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0.4, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
+              <boxGeometry args={[0.1, 0.6, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0.4, 0, 0]} rotation={[0, 0, -Math.PI / 4]}>
+              <boxGeometry args={[0.1, 0.6, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+          </group>
+        );
+      case "#":
+        return (
+          <group scale={[0.7, 0.7, 0.7]}>
+            <mesh position={[-0.2, 0, 0]}>
+              <boxGeometry args={[0.1, 0.8, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0.2, 0, 0]}>
+              <boxGeometry args={[0.1, 0.8, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0, 0.2, 0]}>
+              <boxGeometry args={[0.8, 0.1, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0, -0.2, 0]}>
+              <boxGeometry args={[0.8, 0.1, 0.1]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+          </group>
+        );
+      case "~":
+        return (
+          <group scale={[0.7, 0.7, 0.7]}>
+            <mesh>
+              <cylinderGeometry args={[0.3, 0.3, 0.1, 32]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+          </group>
+        );
+      case "∞":
+        return (
+          <group scale={[0.6, 0.6, 0.6]}>
+            <mesh position={[-0.3, 0, 0]}>
+              <torusGeometry args={[0.3, 0.1, 16, 32]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+            <mesh position={[0.3, 0, 0]}>
+              <torusGeometry args={[0.3, 0.1, 16, 32]} />
+              <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+            </mesh>
+          </group>
+        );
+      default:
+        return (
+          <mesh>
+            <boxGeometry args={[0.5, 0.5, 0.5]} />
+            <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+          </mesh>
+        );
+    }
+  };
+
   return (
     <Float
       speed={1.5} 
       rotationIntensity={1.0}
       floatIntensity={2.0}
     >
-      <mesh
+      <motion3d.group
         ref={meshRef}
         position={position}
         scale={scale}
+        animate={{
+          y: [position[1] - 0.2, position[1] + 0.2, position[1] - 0.2],
+          rotateZ: [0, Math.PI * 2]
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
       >
-        <Text3D 
-          font="/fonts/helvetiker_regular.typeface.json"
-          size={0.75}
-          height={0.1}
-        >
-          {symbol}
-          <meshStandardMaterial 
-            color={color} 
-            emissive={color}
-            emissiveIntensity={0.5}
-            side={DoubleSide}
-          />
-        </Text3D>
-      </mesh>
+        {getGeometry()}
+      </motion3d.group>
     </Float>
   );
 };

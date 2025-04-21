@@ -1,6 +1,7 @@
 
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import YogaSection from "@/components/YogaSection";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
@@ -27,6 +28,7 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <HeroSection />
+        <YogaSection />
       </main>
       <Footer />
     </motion.div>

@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Canvas } from "@react-three/fiber";
-import { Float, PerspectiveCamera, Text3D, Center, Environment } from "@react-three/drei";
+import { Float, PerspectiveCamera, Center, Environment } from "@react-three/drei";
 
 const YogaPoseModel = () => {
   return (
@@ -18,24 +18,131 @@ const YogaPoseModel = () => {
           rotationIntensity={0.5}
           floatIntensity={2.0}
         >
-          <Text3D 
-            font="/fonts/helvetiker_regular.typeface.json"
-            size={0.5}
-            height={0.1}
-            curveSegments={12}
-            bevelEnabled
-            bevelThickness={0.01}
-            bevelSize={0.02}
-            bevelOffset={0}
-            bevelSegments={5}
-          >
-            BALANCE
-            <meshStandardMaterial 
-              color="#9b87f5" 
-              emissive="#8B5CF6"
-              emissiveIntensity={0.5}
-            />
-          </Text3D>
+          <group>
+            {/* Create "BALANCE" with individual letter objects */}
+            <group position={[-1.75, 0, 0]}>
+              <mesh>
+                <boxGeometry args={[0.2, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0.45, 0]}>
+                <boxGeometry args={[0.5, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[0.5, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, -0.45, 0]}>
+                <boxGeometry args={[0.5, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+            
+            {/* A */}
+            <group position={[-1, 0, 0]}>
+              <mesh position={[-0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+            
+            {/* L */}
+            <group position={[-0.25, 0, 0]}>
+              <mesh position={[-0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.05, -0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+            
+            {/* A */}
+            <group position={[0.5, 0, 0]}>
+              <mesh position={[-0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+            
+            {/* N */}
+            <group position={[1.25, 0, 0]}>
+              <mesh position={[-0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
+                <boxGeometry args={[0.5, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+            
+            {/* C */}
+            <group position={[2, 0, 0]}>
+              <mesh position={[-0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.05, 0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.05, -0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+            
+            {/* E */}
+            <group position={[2.65, 0, 0]}>
+              <mesh position={[-0.15, 0, 0]}>
+                <boxGeometry args={[0.1, 1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.05, 0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.05, 0, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+              <mesh position={[0.05, -0.45, 0]}>
+                <boxGeometry args={[0.4, 0.1, 0.1]} />
+                <meshStandardMaterial color="#9b87f5" emissive="#8B5CF6" emissiveIntensity={0.5} />
+              </mesh>
+            </group>
+          </group>
         </Float>
       </Center>
       <Environment preset="city" />
