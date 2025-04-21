@@ -1,10 +1,14 @@
-import { useState } from "react";
+
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Github, Linkedin, Twitter, Instagram, Mail } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, Mail, Send, BookUser } from "lucide-react";
 import { StackOverflowIcon, YogaIcon } from "@/components/icons/CustomIcons";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { Card, CardContent } from "@/components/ui/card";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -194,7 +198,7 @@ const ContactSection = () => {
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Sending..." : "Send Message"}
-                    <SendIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </form>
               </CardContent>

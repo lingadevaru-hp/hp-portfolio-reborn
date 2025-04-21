@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram, Code } from "lucide-react";
@@ -6,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import Scene3D from "@/components/Scene3D";
 import { useInView } from "react-intersection-observer";
+import { YogaIcon } from "@/components/icons/CustomIcons";
 
 const HeroSection = () => {
   const [visibleIndex, setVisibleIndex] = useState(0);
@@ -60,7 +60,6 @@ const HeroSection = () => {
       id="home" 
       className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
     >
-      {/* Background decoration with parallax effect */}
       <motion.div 
         className="absolute inset-0 -z-10" 
         style={{ y: backgroundY }}
@@ -123,7 +122,7 @@ const HeroSection = () => {
             </Button>
             <Button variant="outline" size="lg" asChild className="group">
               <Link to="/yoga">
-                <Yoga className="mr-2 h-4 w-4 transition-transform group-hover:rotate-12" />
+                <YogaIcon className="mr-2 h-4 w-4 transition-transform group-hover:rotate-12" />
                 Explore Yoga
               </Link>
             </Button>

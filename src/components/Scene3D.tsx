@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { OrbitControls, Float, PerspectiveCamera, Text3D, Center } from "@react-three/drei";
 import { Mesh, DoubleSide, Vector3 } from "three";
 import { motion } from "framer-motion";
+import { MotionValue } from "framer-motion";
+import { motion as motion3d } from "framer-motion-3d";
 
 const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }) => {
   const meshRef = useRef<Mesh>(null);
