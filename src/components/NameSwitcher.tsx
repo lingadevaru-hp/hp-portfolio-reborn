@@ -100,7 +100,7 @@ const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
 
   return (
     <motion.h1 
-      className={`text-4xl md:text-6xl font-bold mb-4 ${className} whitespace-pre-wrap`}
+      className={`text-4xl md:text-6xl font-bold mb-4 ${className} whitespace-nowrap min-h-[1.4em]`}
       aria-label={displayText}
       aria-live="polite"
     >
@@ -115,4 +115,3 @@ const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
 };
 
 export default NameSwitcher;
-

@@ -86,10 +86,11 @@ const HeroSection = () => {
             Hello, I'm
           </motion.h2>
           
-          {/* New dynamic name switcher with blinking cursor */}
+          {/* Name switcher with blinking cursor */}
           <NameSwitcher className="gradient-text" />
           
-          <div className="h-8 md:h-12 mb-6 relative">
+          {/* Fixed role display with proper height and spacing */}
+          <div className="h-12 mb-8 relative">
             {roles.map((role, index) => (
               <motion.p 
                 key={role} 
@@ -225,4 +226,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
