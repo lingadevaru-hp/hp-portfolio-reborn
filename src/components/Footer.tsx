@@ -1,7 +1,6 @@
-
-import { Github, Linkedin, Mail, Twitter, Instagram, StackOverflow, Yoga } from "lucide-react";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { Github, Linkedin, Twitter, Instagram, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +10,6 @@ const Footer = () => {
     { icon: Linkedin, href: "https://linkedin.com/in/lingadevaruhp", label: "LinkedIn" },
     { icon: Twitter, href: "https://twitter.com/lingadevaruhp", label: "Twitter" },
     { icon: Instagram, href: "https://instagram.com/lingadevaruhp", label: "Instagram" },
-    { icon: StackOverflow, href: "https://stackoverflow.com/users/lingadevaruhp", label: "Stack Overflow" },
     { icon: Mail, href: "mailto:contact@lingadevaru.in", label: "Email" },
   ];
 
@@ -20,7 +18,6 @@ const Footer = () => {
     { label: "About", href: "/about" },
     { label: "Skills", href: "/skills" },
     { label: "Projects", href: "/projects" },
-    { label: "Yoga", href: "/yoga" },
     { label: "Contact", href: "/contact" },
   ];
 

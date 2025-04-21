@@ -1,9 +1,9 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { OrbitControls, Float, PerspectiveCamera, useTexture, Text3D, Center } from "@react-three/drei";
+import { OrbitControls, Float, PerspectiveCamera, Text3D, Center } from "@react-three/drei";
 import { Mesh, DoubleSide, Vector3 } from "three";
-import { motion } from "framer-motion-3d";
+import { motion } from "framer-motion";
 
 const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }) => {
   const meshRef = useRef<Mesh>(null);
@@ -21,19 +21,10 @@ const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }
       rotationIntensity={1.0}
       floatIntensity={2.0}
     >
-      <motion.mesh
+      <mesh
         ref={meshRef}
         position={position}
         scale={scale}
-        animate={{
-          y: [position[1] - 0.2, position[1] + 0.2, position[1] - 0.2],
-          rotateZ: [0, Math.PI * 2],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
       >
         <Text3D 
           font="/fonts/helvetiker_regular.typeface.json"
@@ -48,7 +39,7 @@ const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }
             side={DoubleSide}
           />
         </Text3D>
-      </motion.mesh>
+      </mesh>
     </Float>
   );
 };

@@ -1,7 +1,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram, StackOverflow, Yoga, Code } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram, Code } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import Scene3D from "@/components/Scene3D";

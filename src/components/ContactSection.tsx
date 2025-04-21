@@ -1,13 +1,10 @@
-
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
-import { Github, Linkedin, Mail, Twitter, Instagram, BookUser, Github as GithubIcon, StackOverflow, SendIcon } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useToast } from "@/components/ui/use-toast";
+import { Github, Linkedin, Twitter, Instagram, Mail } from "lucide-react";
+import { StackOverflowIcon, YogaIcon } from "@/components/icons/CustomIcons";
 
 const ContactSection = () => {
   const { toast } = useToast();
@@ -84,7 +81,7 @@ const ContactSection = () => {
     { 
       name: "GitHub", 
       username: "lingadevaru-hp", 
-      icon: GithubIcon, 
+      icon: Github, 
       url: "https://github.com/lingadevaru-hp",
       color: "hover:text-[#f0f6fc] hover:bg-[#24292e]"
     },
@@ -112,7 +109,7 @@ const ContactSection = () => {
     { 
       name: "Stack Overflow", 
       username: "lingadevaruhp", 
-      icon: StackOverflow, 
+      icon: StackOverflowIcon, 
       url: "https://stackoverflow.com/users/lingadevaruhp", 
       color: "hover:text-white hover:bg-[#f48024]"
     },
