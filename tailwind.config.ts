@@ -79,6 +79,38 @@ export default {
 				fadeIn: {
 					'0%': { opacity: '0', transform: 'translateY(10px)' },
 					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				slideUp: {
+					'0%': { opacity: '0', transform: 'translateY(20px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				slideDown: {
+					'0%': { opacity: '0', transform: 'translateY(-20px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' }
+				},
+				slideLeft: {
+					'0%': { opacity: '0', transform: 'translateX(20px)' },
+					'100%': { opacity: '1', transform: 'translateX(0)' }
+				},
+				slideRight: {
+					'0%': { opacity: '0', transform: 'translateX(-20px)' },
+					'100%': { opacity: '1', transform: 'translateX(0)' }
+				},
+				zoomIn: {
+					'0%': { opacity: '0', transform: 'scale(0.95)' },
+					'100%': { opacity: '1', transform: 'scale(1)' }
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				pulse: {
+					'0%, 100%': { transform: 'scale(1)', opacity: '1' },
+					'50%': { transform: 'scale(1.05)', opacity: '0.9' }
+				},
+				rotate: {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' }
 				}
 			},
 			animation: {
@@ -86,7 +118,21 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				typing: 'typing 3.5s steps(40, end)',
 				'cursor-blink': 'blink 1s step-end infinite',
-				fadeIn: 'fadeIn 0.5s ease-out forwards'
+				fadeIn: 'fadeIn 0.5s ease-out forwards',
+				slideUp: 'slideUp 0.5s ease-out forwards',
+				slideDown: 'slideDown 0.5s ease-out forwards',
+				slideLeft: 'slideLeft 0.5s ease-out forwards',
+				slideRight: 'slideRight 0.5s ease-out forwards',
+				zoomIn: 'zoomIn 0.5s ease-out forwards',
+				float: 'float 3s ease-in-out infinite',
+				pulse: 'pulse 3s ease-in-out infinite',
+				spin: 'rotate 1s linear infinite'
+			},
+			transitionProperty: {
+				'height': 'height',
+				'spacing': 'margin, padding',
+				'width': 'width',
+				'transform': 'transform',
 			}
 		}
 	},

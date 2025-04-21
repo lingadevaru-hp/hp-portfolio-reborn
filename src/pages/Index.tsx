@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const Index = () => {
   useEffect(() => {
@@ -17,13 +18,18 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-screen flex flex-col"
+    >
       <Navbar />
       <main className="flex-grow">
         <HeroSection />
       </main>
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 
