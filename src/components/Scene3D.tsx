@@ -2,12 +2,12 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { OrbitControls, Float, PerspectiveCamera, Center } from "@react-three/drei";
-import { Mesh, DoubleSide, Vector3, BoxGeometry, MeshStandardMaterial } from "three";
+import { Mesh, DoubleSide, Vector3, Group } from "three";
 import { motion } from "framer-motion";
 
 // Create a component for each symbol using basic shapes instead of Text3D
 const FloatingSymbol = ({ position, scale, color, rotationSpeed = 0.01, symbol }) => {
-  const meshRef = useRef<Mesh>(null);
+  const meshRef = useRef<Group>(null);
 
   useFrame(() => {
     if (meshRef.current) {

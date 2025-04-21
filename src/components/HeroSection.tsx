@@ -1,16 +1,17 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram, Code } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import Scene3D from "@/components/Scene3D";
 import { useInView } from "react-intersection-observer";
 import { YogaIcon } from "@/components/icons/CustomIcons";
+import TypewriterText from "@/components/TypewriterText";
 
 const HeroSection = () => {
   const [visibleIndex, setVisibleIndex] = useState(0);
-  const roles = ["Computer Science Student", "Linux Enthusiast", "Yoga Practitioner"];
+  const roles = ["Computer Science Student", "Linux Enthusiast", "Yoga Practitioner", "AI Enthusiast"];
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -88,7 +89,13 @@ const HeroSection = () => {
             className="text-4xl md:text-6xl font-bold mb-4"
             variants={itemVariants}
           >
-            Lingadevaru <span className="gradient-text">HP</span>
+            <TypewriterText 
+              texts={["Lingadevaru HP", "Thoshan"]} 
+              typingSpeed={100}
+              deletingSpeed={80}
+              delayBetweenTexts={3000}
+              className="gradient-text"
+            />
           </motion.h1>
           
           <div className="h-8 md:h-12 mb-6 relative">
@@ -108,7 +115,7 @@ const HeroSection = () => {
             variants={itemVariants}
           >
             I'm a curious mind exploring the intersection of technology and mindfulness. 
-            Passionate about creating elegant solutions while maintaining balance through yoga and open-source contributions.
+            Passionate about Linux, open-source contributions, AI, and creating elegant solutions while maintaining balance through yoga.
           </motion.p>
           
           <motion.div 

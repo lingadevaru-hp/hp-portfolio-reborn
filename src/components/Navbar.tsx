@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,15 +9,30 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      
+      // Determine if navbar should be visible or hidden based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsHidden(true);
+      } else {
+        setIsHidden(false);
+      }
+      
+      // Determine if navbar should have background
+      setIsScrolled(currentScrollY > 50);
+      
+      // Update the last scroll position
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -36,11 +52,18 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         isScrolled ? "bg-background/90 backdrop-blur-sm border-b border-border" : "bg-transparent"
       }`}
       initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      animate={{ 
+        y: isHidden ? -100 : 0,
+        opacity: isHidden ? 0 : 1
+      }}
+      transition={{
+        y: { type: "spring", stiffness: 300, damping: 30 },
+        opacity: { duration: 0.2 }
+      }}
     >
       <div className="section-container py-4">
         <div className="flex items-center justify-between">
@@ -70,7 +93,7 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-            <Button asChild>
+            <Button asChild variant="default" className="bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25">
               <Link to="/contact">Contact Me</Link>
             </Button>
           </div>
@@ -108,7 +131,7 @@ const Navbar = () => {
                     {item.label}
                   </Link>
                 ))}
-                <Button asChild variant="outline">
+                <Button asChild variant="default" className="mt-4 bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25">
                   <Link to="/contact" onClick={closeMenu}>
                     Contact Me
                   </Link>
