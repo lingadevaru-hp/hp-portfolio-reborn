@@ -8,6 +8,7 @@ import Scene3D from "@/components/Scene3D";
 import { useInView } from "react-intersection-observer";
 import { YogaIcon } from "@/components/icons/CustomIcons";
 import TypewriterText from "@/components/TypewriterText";
+import NameSwitcher from "@/components/NameSwitcher";
 
 const HeroSection = () => {
   const [visibleIndex, setVisibleIndex] = useState(0);
@@ -85,18 +86,8 @@ const HeroSection = () => {
             Hello, I'm
           </motion.h2>
           
-          <motion.h1 
-            className="text-4xl md:text-6xl font-bold mb-4"
-            variants={itemVariants}
-          >
-            <TypewriterText 
-              texts={["Lingadevaru HP", "Thoshan"]} 
-              typingSpeed={100}
-              deletingSpeed={80}
-              delayBetweenTexts={3000}
-              className="gradient-text"
-            />
-          </motion.h1>
+          {/* New dynamic name switcher with blinking cursor */}
+          <NameSwitcher className="gradient-text" />
           
           <div className="h-8 md:h-12 mb-6 relative">
             {roles.map((role, index) => (
@@ -234,3 +225,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
