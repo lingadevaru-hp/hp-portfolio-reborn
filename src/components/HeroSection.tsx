@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import Scene3D from "@/components/Scene3D";
 import { useInView } from "react-intersection-observer";
@@ -89,17 +89,20 @@ const HeroSection = () => {
           {/* Name switcher with blinking cursor */}
           <NameSwitcher className="gradient-text" />
           
-          {/* Fixed role display with proper height and spacing */}
-          <div className="h-12 mb-8 relative">
-            {roles.map((role, index) => (
-              <motion.p 
-                key={role} 
-                className={`text-xl md:text-2xl text-muted-foreground font-medium transition-all duration-500 absolute left-0 right-0 lg:left-0 lg:right-auto ${index === visibleIndex ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4'}`}
-                variants={itemVariants}
+          {/* Role display with proper animation and fixed height */}
+          <div className="h-12 mb-8 flex items-center justify-center lg:justify-start overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={visibleIndex}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-xl md:text-2xl text-muted-foreground font-medium"
               >
-                {role}
-              </motion.p>
-            ))}
+                {roles[visibleIndex]}
+              </motion.div>
+            </AnimatePresence>
           </div>
           
           <motion.p 
