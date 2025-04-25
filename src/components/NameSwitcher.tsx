@@ -7,12 +7,11 @@ interface NameSwitcherProps {
 }
 
 const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
-  const fullNameText = "Hello, I am H P";
-  const nickname = "Thoshan";
+  const fullNameText = "Hello, I am Lingadevaru HP";
+  const nickname = "Thoshan HP";
 
   const [displayText, setDisplayText] = useState(fullNameText);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [stage, setStage] = useState<"full" | "eraseHP" | "typeNick" | "eraseNick" | "typeHP">("full");
+  const [stage, setStage] = useState<"full" | "eraseFullName" | "typeNick" | "eraseNick" | "typeFullName">("full");
   const [cursorVisible, setCursorVisible] = useState(true);
 
   useEffect(() => {
@@ -25,27 +24,16 @@ const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
   useEffect(() => {
     let timeout: NodeJS.Timeout;
 
-    // The logic:
-    // stage full: displayed "Hello, I am H P" for 2000ms then move to eraseHP
-    // eraseHP: erase "H P" part (last 3 chars)
-    // typeNick: type "Thoshan" after "Hello, I am "
-    // display for 2000ms
-    // eraseNick: erase "Thoshan"
-    // typeHP: type "H P"
-    // loop
-
     const startingText = "Hello, I am ";
-    const hpText = "H P";
 
     switch(stage) {
       case "full":
         timeout = setTimeout(() => {
-          setStage("eraseHP");
+          setStage("eraseFullName");
         }, 2000);
         break;
 
-      case "eraseHP": {
-        // Erase last character of hpText from displayText until removed
+      case "eraseFullName": {
         if (displayText.length > startingText.length) {
           timeout = setTimeout(() => {
             setDisplayText(prev => prev.slice(0, -1));
@@ -57,7 +45,6 @@ const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
       }
 
       case "typeNick": {
-        // Type out nickname after startingText
         if (displayText.length < startingText.length + nickname.length) {
           timeout = setTimeout(() => {
             setDisplayText(startingText + nickname.slice(0, displayText.length - startingText.length + 1));
@@ -76,15 +63,16 @@ const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
             setDisplayText(prev => prev.slice(0, -1));
           }, 80);
         } else {
-          setStage("typeHP");
+          setStage("typeFullName");
         }
         break;
       }
 
-      case "typeHP": {
-        if (displayText.length < startingText.length + hpText.length) {
+      case "typeFullName": {
+        const fullNameWithoutPrefix = "Lingadevaru HP";
+        if (displayText.length < startingText.length + fullNameWithoutPrefix.length) {
           timeout = setTimeout(() => {
-            setDisplayText(startingText + hpText.slice(0, displayText.length - startingText.length + 1));
+            setDisplayText(startingText + fullNameWithoutPrefix.slice(0, displayText.length - startingText.length + 1));
           }, 150);
         } else {
           timeout = setTimeout(() => {

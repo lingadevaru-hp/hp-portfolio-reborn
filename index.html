@@ -3,11 +3,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Lingadevaru HP | Portfolio</title>
     <meta name="description" content="Lingadevaru HP's personal portfolio website showcasing skills, projects and experiences" />
     <meta name="author" content="Lingadevaru HP" />
 
+    <!-- PWA meta tags -->
+    <meta name="theme-color" content="#818cf8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="HP Portfolio" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+
+    <!-- Social meta tags -->
     <meta property="og:title" content="Lingadevaru HP | Portfolio" />
     <meta property="og:description" content="Lingadevaru HP's personal portfolio website showcasing skills, projects and experiences" />
     <meta property="og:type" content="website" />
@@ -17,13 +26,24 @@
     <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://images.techhive.com/images/article/2016/08/tux-100677393-orig.png?auto=webp&quality=85,70" />
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" />
   </head>
-
   <body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('SW registered:', registration);
+            })
+            .catch(error => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

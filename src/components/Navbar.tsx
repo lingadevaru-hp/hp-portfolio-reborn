@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -47,6 +46,7 @@ const Navbar = () => {
     { path: "/about", label: "About" },
     { path: "/skills", label: "Skills" },
     { path: "/projects", label: "Projects" },
+    { path: "/yoga", label: "Yoga" },
     { path: "/contact", label: "Contact" },
   ];
 
@@ -93,9 +93,6 @@ const Navbar = () => {
                 {item.label}
               </Link>
             ))}
-            <Button asChild variant="default" className="bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25">
-              <Link to="/contact">Contact Me</Link>
-            </Button>
           </div>
         </div>
       </div>
@@ -131,11 +128,6 @@ const Navbar = () => {
                     {item.label}
                   </Link>
                 ))}
-                <Button asChild variant="default" className="mt-4 bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25">
-                  <Link to="/contact" onClick={closeMenu}>
-                    Contact Me
-                  </Link>
-                </Button>
               </div>
             </div>
           </motion.div>
