@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Github, Linkedin, Twitter, Instagram, Mail } from "lucide-react";
 import { motion } from "framer-motion";
@@ -10,14 +9,10 @@ const Footer = () => {
     { icon: Github, href: "https://github.com/lingadevaru-hp", label: "GitHub" },
     { icon: Linkedin, href: "https://linkedin.com/in/lingadevaruhp", label: "LinkedIn" },
     { icon: Twitter, href: "https://twitter.com/lingadevaruhp", label: "Twitter" },
-    { icon: Instagram, href: "https://instagram.com/lingadevaruhp", label: "Instagram" },
+    { icon: Instagram, href: "https://instagram.com/in/lingadevaruhp", label: "Instagram" },
     { icon: Mail, href: "mailto:contact@lingadevaru.in", label: "Email" },
     { 
-      icon: () => (
-        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
-        </svg>
-      ),
+      icon: "devfolio",
       href: "https://devfolio.co/@lingadevaruhp",
       label: "Devfolio"
     }
@@ -30,6 +25,19 @@ const Footer = () => {
     { label: "Projects", href: "/projects" },
     { label: "Contact", href: "/contact" },
   ];
+
+  const renderIcon = (icon: any) => {
+    if (icon === "devfolio") {
+      return (
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
+        </svg>
+      );
+    }
+    
+    const IconComponent = icon;
+    return <IconComponent size={20} />;
+  };
 
   return (
     <footer className="bg-secondary/50 pt-12 pb-8">
@@ -54,7 +62,7 @@ const Footer = () => {
                   whileHover={{ scale: 1.2, y: -5 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  {typeof link.icon === 'function' ? <link.icon /> : <link.icon size={20} />}
+                  {renderIcon(link.icon)}
                 </motion.a>
               ))}
             </div>
