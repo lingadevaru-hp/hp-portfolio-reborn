@@ -1,10 +1,9 @@
-
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Github, Linkedin, Twitter, Instagram, Mail, Send, BookUser } from "lucide-react";
+import { Github, Twitter, Instagram, Mail, Send, BookUser } from "lucide-react";
 import { StackOverflowIcon, YogaIcon } from "@/components/icons/CustomIcons";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -90,11 +89,15 @@ const ContactSection = () => {
       color: "hover:text-[#f0f6fc] hover:bg-[#24292e]"
     },
     { 
-      name: "LinkedIn", 
+      name: "Devfolio", 
       username: "lingadevaruhp", 
-      icon: Linkedin, 
-      url: "https://linkedin.com/in/lingadevaruhp",
-      color: "hover:text-white hover:bg-[#0077b5]"
+      icon: () => (
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
+        </svg>
+      ), 
+      url: "https://devfolio.co/@lingadevaruhp",
+      color: "hover:text-white hover:bg-[#3770FF]"
     },
     { 
       name: "Twitter", 

@@ -1,15 +1,22 @@
+
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, Instagram, Mail } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, Mail, LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
+
+interface SocialLink {
+  icon: LucideIcon | "devfolio";
+  href: string;
+  label: string;
+}
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
-  const socialLinks = [
+  const socialLinks: SocialLink[] = [
     { icon: Github, href: "https://github.com/lingadevaru-hp", label: "GitHub" },
     { icon: Linkedin, href: "https://linkedin.com/in/lingadevaruhp", label: "LinkedIn" },
     { icon: Twitter, href: "https://twitter.com/lingadevaruhp", label: "Twitter" },
-    { icon: Instagram, href: "https://instagram.com/in/lingadevaruhp", label: "Instagram" },
+    { icon: Instagram, href: "https://instagram.com/lingadevaruhp", label: "Instagram" },
     { icon: Mail, href: "mailto:contact@lingadevaru.in", label: "Email" },
     { 
       icon: "devfolio",
@@ -26,7 +33,7 @@ const Footer = () => {
     { label: "Contact", href: "/contact" },
   ];
 
-  const renderIcon = (icon: any) => {
+  const renderIcon = (icon: SocialLink["icon"]) => {
     if (icon === "devfolio") {
       return (
         <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
@@ -36,7 +43,7 @@ const Footer = () => {
     }
     
     const IconComponent = icon;
-    return <IconComponent size={20} />;
+    return <IconComponent className="h-5 w-5" />;
   };
 
   return (
@@ -45,7 +52,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
             <Link to="/" className="text-2xl font-bold gradient-text inline-block mb-4">
-              Lingadevaru<span className="text-accent"> HP</span>
+              Lingadevaru
             </Link>
             <p className="text-muted-foreground max-w-md mb-4">
               A curious mind exploring the intersection of technology and mindfulness. Passionate about creating elegant solutions while maintaining balance.
@@ -100,12 +107,14 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="https://linkedin.com/in/lingadevaruhp" 
+                  href="https://devfolio.co/@lingadevaruhp" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-muted-foreground hover:text-primary transition-colors flex items-center"
                 >
-                  <Linkedin size={16} className="mr-2" />
+                  <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
+                  </svg>
                   @lingadevaruhp
                 </a>
               </li>
@@ -117,19 +126,6 @@ const Footer = () => {
                   className="text-muted-foreground hover:text-primary transition-colors flex items-center"
                 >
                   <Twitter size={16} className="mr-2" />
-                  @lingadevaruhp
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://devfolio.co/@lingadevaruhp" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-muted-foreground hover:text-primary transition-colors flex items-center"
-                >
-                  <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
-                  </svg>
                   @lingadevaruhp
                 </a>
               </li>
@@ -148,7 +144,7 @@ const Footer = () => {
         
         <div className="border-t border-border/30 pt-8 mt-8 flex flex-col sm:flex-row items-center justify-between">
           <p className="text-muted-foreground text-sm mb-4 sm:mb-0">
-            © {currentYear} Lingadevaru HP. All rights reserved.
+            © {currentYear} Lingadevaru. All rights reserved.
           </p>
           <div className="flex items-center text-sm text-muted-foreground">
             <Link to="/" className="mr-4 hover:text-primary transition-colors">Privacy Policy</Link>

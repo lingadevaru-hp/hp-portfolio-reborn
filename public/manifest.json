@@ -1,8 +1,7 @@
-
 {
-  "name": "Lingadevaru HP Portfolio",
-  "short_name": "HP Portfolio",
-  "description": "Lingadevaru HP's personal portfolio website showcasing skills, projects and experiences",
+  "name": "Lingadevaru Portfolio",
+  "short_name": "Lingadevaru",
+  "description": "Lingadevaru's personal portfolio website showcasing skills, projects and experiences",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -57,14 +56,14 @@
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Home Screen of Lingadevaru HP Portfolio"
+      "label": "Home Screen of Lingadevaru Portfolio"
     },
     {
       "src": "/screenshots/mobile-projects.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Projects Screen of Lingadevaru HP Portfolio"
+      "label": "Projects Screen of Lingadevaru Portfolio"
     }
   ],
   "categories": ["portfolio", "development", "technology"],
@@ -72,22 +71,12 @@
     {
       "name": "Projects",
       "url": "/projects",
-      "icons": [
-        {
-          "src": "/icons/icon-96x96.png",
-          "sizes": "96x96"
-        }
-      ]
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Skills",
       "url": "/skills",
-      "icons": [
-        {
-          "src": "/icons/icon-96x96.png",
-          "sizes": "96x96"
-        }
-      ]
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ],
   "related_applications": []
