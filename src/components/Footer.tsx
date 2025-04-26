@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Github, Linkedin, Twitter, Instagram, Mail } from "lucide-react";
 import { motion } from "framer-motion";
@@ -53,7 +54,7 @@ const Footer = () => {
                   whileHover={{ scale: 1.2, y: -5 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <link.icon size={20} />
+                  {typeof link.icon === 'function' ? <link.icon /> : <link.icon size={20} />}
                 </motion.a>
               ))}
             </div>
@@ -108,6 +109,19 @@ const Footer = () => {
                   className="text-muted-foreground hover:text-primary transition-colors flex items-center"
                 >
                   <Twitter size={16} className="mr-2" />
+                  @lingadevaruhp
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://devfolio.co/@lingadevaruhp" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-muted-foreground hover:text-primary transition-colors flex items-center"
+                >
+                  <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
+                  </svg>
                   @lingadevaruhp
                 </a>
               </li>

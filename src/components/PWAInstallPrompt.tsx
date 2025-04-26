@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useToast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
+import { X } from 'lucide-react';
 
 const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
@@ -66,14 +68,32 @@ const PWAInstallPrompt = () => {
     localStorage.setItem('pwaPromptShown', 'true');
   };
 
+  // PWA prompt won't appear in development/preview mode
+  // It requires HTTPS and proper deployment
   if (!showPrompt) return null;
 
   return (
     <Sheet open={showPrompt} onOpenChange={setShowPrompt}>
-      <SheetContent className="sm:max-w-lg rounded-t-xl sm:rounded-xl">
-        <SheetHeader>
+      <SheetContent side="bottom" className="rounded-t-xl sm:max-w-lg sm:rounded-xl mx-auto">
+        <SheetHeader className="relative">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute right-0 top-0" 
+            onClick={handleDismiss}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </Button>
           <SheetTitle className="flex items-center gap-2">
-            <img src="/icons/icon-192x192.png" alt="App Icon" className="w-8 h-8" />
+            <motion.img 
+              src="/icons/icon-192x192.png" 
+              alt="App Icon" 
+              className="w-8 h-8 rounded-xl"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.3 }}
+            />
             Install Portfolio App
           </SheetTitle>
           <SheetDescription>
@@ -84,8 +104,14 @@ const PWAInstallPrompt = () => {
           <Button variant="outline" onClick={handleDismiss}>
             Maybe Later
           </Button>
-          <Button onClick={handleInstall}>
-            Install Now
+          <Button onClick={handleInstall} className="relative overflow-hidden group">
+            <span className="relative z-10">Install Now</span>
+            <motion.div
+              className="absolute inset-0 bg-primary/20"
+              initial={{ x: "-100%" }}
+              whileHover={{ x: 0 }}
+              transition={{ duration: 0.3 }}
+            />
           </Button>
         </div>
       </SheetContent>

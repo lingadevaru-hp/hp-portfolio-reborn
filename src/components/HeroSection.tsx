@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
@@ -59,7 +60,7 @@ const HeroSection = () => {
     <section 
       ref={containerRef} 
       id="home" 
-      className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden snap-start"
     >
       <motion.div 
         className="absolute inset-0 -z-10" 
@@ -100,10 +101,10 @@ const HeroSection = () => {
           </div>
           
           <motion.div 
-            className="relative max-h-[120px] md:max-h-none overflow-hidden mb-8"
+            className="relative max-h-[120px] overflow-hidden mb-8"
             variants={itemVariants}
           >
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 line-clamp-3 sm:line-clamp-none">
               I'm a curious mind exploring the intersection of technology and mindfulness. 
               Passionate about Linux, open-source contributions, AI, and creating elegant solutions while maintaining balance through yoga.
             </p>
@@ -177,6 +178,7 @@ const HeroSection = () => {
               rel="noopener noreferrer" 
               className="text-foreground/70 hover:text-foreground transition-colors"
               whileHover={{ scale: 1.1, y: -5 }}
+              aria-label="Devfolio"
             >
               <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
@@ -187,7 +189,7 @@ const HeroSection = () => {
         </motion.div>
         
         <motion.div 
-          className="w-full h-[400px] lg:h-[500px] relative"
+          className="w-full h-[350px] sm:h-[400px] lg:h-[500px] relative"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}

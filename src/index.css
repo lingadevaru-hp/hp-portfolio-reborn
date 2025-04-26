@@ -48,10 +48,14 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 4rem;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-background text-foreground antialiased overflow-x-hidden;
+    overscroll-behavior: none;
+    touch-action: manipulation;
   }
 
   /* Custom cursor */
@@ -80,6 +84,18 @@
     transform: translate(-50%, -50%) scale(1.5);
     background-color: transparent;
     border: 2px solid var(--cursor-color);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 640px) {
+    body {
+      scroll-snap-type: y proximity;
+    }
+    
+    section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+    }
   }
 }
 
@@ -119,6 +135,28 @@
 
 .card-3d:hover {
   @apply transform rotate-y-5 rotate-x-5;
+}
+
+/* Text truncation for mobile */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Animations */
@@ -206,4 +244,30 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Mobile menu enhancements */
+.mobile-menu-overlay {
+  @apply fixed inset-0 z-40 bg-black/60 backdrop-blur-sm;
+}
+
+.mobile-menu {
+  @apply fixed inset-y-0 right-0 w-full max-w-[300px] z-50 bg-background/90 backdrop-blur-md p-6 shadow-2xl;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* Mobile bottom sheet */
+.bottom-sheet {
+  @apply fixed inset-x-0 bottom-0 z-50 bg-background rounded-t-xl shadow-2xl;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.17, 0.67, 0.39, 1.01);
+}
+
+.bottom-sheet.open {
+  transform: translateY(0);
 }
