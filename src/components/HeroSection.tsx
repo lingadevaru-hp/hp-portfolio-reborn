@@ -1,12 +1,10 @@
-
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import Scene3D from "@/components/Scene3D";
 import { useInView } from "react-intersection-observer";
-import { YogaIcon } from "@/components/icons/CustomIcons";
 import TypewriterText from "@/components/TypewriterText";
 import NameSwitcher from "@/components/NameSwitcher";
 
@@ -86,32 +84,30 @@ const HeroSection = () => {
             Hello, I'm
           </motion.h2>
           
-          {/* Name switcher with blinking cursor */}
           <NameSwitcher className="gradient-text" />
           
-          {/* Role display with proper animation and fixed height */}
           <div className="h-12 mb-8 flex items-center justify-center lg:justify-start overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={visibleIndex}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-xl md:text-2xl text-muted-foreground font-medium"
-              >
-                {roles[visibleIndex]}
-              </motion.div>
-            </AnimatePresence>
+            <motion.div
+              key={visibleIndex}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-xl md:text-2xl text-muted-foreground font-medium"
+            >
+              {roles[visibleIndex]}
+            </motion.div>
           </div>
           
-          <motion.p 
-            className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0"
+          <motion.div 
+            className="relative max-h-[120px] md:max-h-none overflow-hidden mb-8"
             variants={itemVariants}
           >
-            I'm a curious mind exploring the intersection of technology and mindfulness. 
-            Passionate about Linux, open-source contributions, AI, and creating elegant solutions while maintaining balance through yoga.
-          </motion.p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0">
+              I'm a curious mind exploring the intersection of technology and mindfulness. 
+              Passionate about Linux, open-source contributions, AI, and creating elegant solutions while maintaining balance through yoga.
+            </p>
+          </motion.div>
           
           <motion.div 
             className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12"
@@ -125,8 +121,8 @@ const HeroSection = () => {
             </Button>
             <Button variant="outline" size="lg" asChild className="group">
               <Link to="/yoga">
-                <YogaIcon className="mr-2 h-4 w-4 transition-transform group-hover:rotate-12" />
                 Explore Yoga
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
           </motion.div>
@@ -140,11 +136,7 @@ const HeroSection = () => {
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-foreground/70 hover:text-foreground transition-colors"
-              whileHover={{ 
-                scale: 1.1,
-                y: -5,
-                transition: { type: "spring", stiffness: 400 }
-              }}
+              whileHover={{ scale: 1.1, y: -5 }}
             >
               <Github className="h-6 w-6" />
               <span className="sr-only">GitHub</span>
@@ -154,11 +146,7 @@ const HeroSection = () => {
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-foreground/70 hover:text-foreground transition-colors"
-              whileHover={{ 
-                scale: 1.1,
-                y: -5,
-                transition: { type: "spring", stiffness: 400 }
-              }}
+              whileHover={{ scale: 1.1, y: -5 }}
             >
               <Linkedin className="h-6 w-6" />
               <span className="sr-only">LinkedIn</span>
@@ -168,11 +156,7 @@ const HeroSection = () => {
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-foreground/70 hover:text-foreground transition-colors"
-              whileHover={{ 
-                scale: 1.1,
-                y: -5,
-                transition: { type: "spring", stiffness: 400 }
-              }}
+              whileHover={{ scale: 1.1, y: -5 }}
             >
               <Twitter className="h-6 w-6" />
               <span className="sr-only">Twitter</span>
@@ -182,14 +166,22 @@ const HeroSection = () => {
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-foreground/70 hover:text-foreground transition-colors"
-              whileHover={{ 
-                scale: 1.1,
-                y: -5,
-                transition: { type: "spring", stiffness: 400 }
-              }}
+              whileHover={{ scale: 1.1, y: -5 }}
             >
               <Instagram className="h-6 w-6" />
               <span className="sr-only">Instagram</span>
+            </motion.a>
+            <motion.a 
+              href="https://devfolio.co/@lingadevaruhp" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-foreground/70 hover:text-foreground transition-colors"
+              whileHover={{ scale: 1.1, y: -5 }}
+            >
+              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
+              </svg>
+              <span className="sr-only">Devfolio</span>
             </motion.a>
           </motion.div>
         </motion.div>
@@ -198,32 +190,11 @@ const HeroSection = () => {
           className="w-full h-[400px] lg:h-[500px] relative"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ 
-            duration: 0.8, 
-            delay: 0.3,
-            type: "spring",
-            stiffness: 50
-          }}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
           <Scene3D />
         </motion.div>
       </div>
-      
-      <motion.div 
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center"
-        animate={{ 
-          y: [0, 10, 0],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          repeatType: "loop"
-        }}
-        style={{ opacity }}
-      >
-        <p className="text-sm text-muted-foreground mb-2">Scroll to explore</p>
-        <ArrowRight className="h-5 w-5 rotate-90 text-primary" />
-      </motion.div>
     </section>
   );
 };

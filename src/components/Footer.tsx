@@ -11,6 +11,15 @@ const Footer = () => {
     { icon: Twitter, href: "https://twitter.com/lingadevaruhp", label: "Twitter" },
     { icon: Instagram, href: "https://instagram.com/lingadevaruhp", label: "Instagram" },
     { icon: Mail, href: "mailto:contact@lingadevaru.in", label: "Email" },
+    { 
+      icon: () => (
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm0 4.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM12 6c3.312 0 6 2.688 6 6s-2.688 6-6 6-6-2.688-6-6 2.688-6 6-6z"/>
+        </svg>
+      ),
+      href: "https://devfolio.co/@lingadevaruhp",
+      label: "Devfolio"
+    }
   ];
 
   const mainLinks = [

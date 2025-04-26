@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useToast } from '@/hooks/use-toast';
 
 const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const isMobile = useIsMobile();
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -35,16 +37,28 @@ const PWAInstallPrompt = () => {
   const handleInstall = async () => {
     if (!deferredPrompt) return;
 
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      console.log('PWA installed successfully');
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        toast({
+          title: "Installation Started",
+          description: "The app is being installed on your device.",
+        });
+      }
+      
+      setDeferredPrompt(null);
+      setShowPrompt(false);
+      localStorage.setItem('pwaPromptShown', 'true');
+    } catch (error) {
+      console.error('Installation failed:', error);
+      toast({
+        title: "Installation Failed",
+        description: "Please try installing from your browser's menu.",
+        variant: "destructive",
+      });
     }
-    
-    setDeferredPrompt(null);
-    setShowPrompt(false);
-    localStorage.setItem('pwaPromptShown', 'true');
   };
 
   const handleDismiss = () => {
@@ -56,19 +70,22 @@ const PWAInstallPrompt = () => {
 
   return (
     <Sheet open={showPrompt} onOpenChange={setShowPrompt}>
-      <SheetContent className="sm:max-w-lg">
+      <SheetContent className="sm:max-w-lg rounded-t-xl sm:rounded-xl">
         <SheetHeader>
-          <SheetTitle>Install Portfolio App</SheetTitle>
+          <SheetTitle className="flex items-center gap-2">
+            <img src="/icons/icon-192x192.png" alt="App Icon" className="w-8 h-8" />
+            Install Portfolio App
+          </SheetTitle>
           <SheetDescription>
             Add this app to your home screen for quick access to my portfolio
           </SheetDescription>
         </SheetHeader>
         <div className="mt-6 flex justify-end space-x-4">
           <Button variant="outline" onClick={handleDismiss}>
-            Dismiss
+            Maybe Later
           </Button>
           <Button onClick={handleInstall}>
-            Install
+            Install Now
           </Button>
         </div>
       </SheetContent>
