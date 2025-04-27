@@ -7,7 +7,7 @@ interface NameSwitcherProps {
 }
 
 const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
-  const fullNameText = "Hello, I am Lingadevaru HP";
+  const fullNameText = "Hi👋I am Lingadevaru HP";
   const nickname = "Thoshan HP";
 
   const [displayText, setDisplayText] = useState(fullNameText);
