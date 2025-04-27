@@ -1,4 +1,5 @@
 
+import React from "react";
 import { motion } from "framer-motion";
 import { Github, Twitter, Instagram, Mail } from "lucide-react";
 import { StackOverflowIcon } from "@/components/icons/CustomIcons";
@@ -76,9 +77,9 @@ const SocialLinks = () => {
           whileTap={{ scale: 0.98 }}
         >
           <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-background/50 text-primary">
-            {typeof social.icon === 'function' ? 
-              React.createElement(social.icon, { size: 20 }) : 
-              <social.icon size={20} />}
+            {React.isValidElement(social.icon) ? 
+              social.icon : 
+              React.createElement(social.icon, { size: 20 })}
           </div>
           <div className="ml-4">
             <p className="font-medium">{social.name}</p>
