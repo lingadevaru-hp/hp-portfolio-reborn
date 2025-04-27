@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Install } from 'lucide-react';
+import { Download } from 'lucide-react'; // Changed from Install to Download
 
 const PWAInstallBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -70,7 +70,7 @@ const PWAInstallBanner = () => {
               size="sm"
             >
               Install Now
-              <Install className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+              <Download className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" /> {/* Changed icon */}
             </Button>
           </div>
         </motion.div>
