@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
@@ -105,8 +104,7 @@ const HeroSection = () => {
             variants={itemVariants}
           >
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 line-clamp-3 sm:line-clamp-none">
-              I'm a curious mind exploring the intersection of technology and mindfulness. 
-              Passionate about Linux, open-source contributions, AI, and creating elegant solutions while maintaining balance through yoga.
+              Tech enthusiast | Linux & open-source advocate | AI explorer | Yoga for balance
             </p>
           </motion.div>
           

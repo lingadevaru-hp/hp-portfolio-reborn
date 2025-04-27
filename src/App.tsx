@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ import Contact from "./pages/Contact";
 import Yoga from "./pages/Yoga";
 import NotFound from "./pages/NotFound";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
+import PWAInstallBanner from "./components/PWAInstallBanner";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +22,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <PWAInstallBanner />
         <PWAInstallPrompt />
         <BrowserRouter>
           <AnimatePresence mode="wait">
