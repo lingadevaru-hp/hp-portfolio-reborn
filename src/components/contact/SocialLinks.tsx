@@ -2,11 +2,13 @@
 import { motion } from "framer-motion";
 import { Github, Twitter, Instagram, Mail } from "lucide-react";
 import { StackOverflowIcon } from "@/components/icons/CustomIcons";
+import { LucideIcon } from "lucide-react";
 
+// Updated interface to handle both Lucide icons and custom SVG components
 interface SocialLink {
   name: string;
   username: string;
-  icon: React.FC<{ size?: number }>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement> | { size?: number }>;
   url: string;
   color: string;
 }
@@ -74,7 +76,9 @@ const SocialLinks = () => {
           whileTap={{ scale: 0.98 }}
         >
           <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-background/50 text-primary">
-            <social.icon size={20} />
+            {typeof social.icon === 'function' ? 
+              React.createElement(social.icon, { size: 20 }) : 
+              <social.icon size={20} />}
           </div>
           <div className="ml-4">
             <p className="font-medium">{social.name}</p>
