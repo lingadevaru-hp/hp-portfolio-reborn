@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, Download } from 'lucide-react';
 
 const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
@@ -18,31 +18,54 @@ const PWAInstallPrompt = () => {
       e.preventDefault();
       setDeferredPrompt(e);
       
-      // Only show prompt on mobile devices after 5 seconds
-      if (isMobile) {
-        setTimeout(() => {
-          const hasPromptBeenShown = localStorage.getItem('pwaPromptShown');
-          if (!hasPromptBeenShown) {
-            setShowPrompt(true);
-          }
-        }, 5000);
-      }
+      // Show prompt after 3 seconds for better user experience
+      setTimeout(() => {
+        const hasPromptBeenShown = localStorage.getItem('pwaPromptShown');
+        
+        // Only show if not already dismissed or installed
+        if (!hasPromptBeenShown && !window.matchMedia('(display-mode: standalone)').matches) {
+          setShowPrompt(true);
+          console.log('PWA install prompt displayed');
+        }
+      }, 3000);
     };
 
+    // Log when beforeinstallprompt fires
+    console.log('Setting up beforeinstallprompt listener');
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    
+    // Log when app is installed
+    window.addEventListener('appinstalled', (event) => {
+      console.log('PWA was successfully installed');
+      setShowPrompt(false);
+      toast({
+        title: "Installation Complete",
+        description: "The app has been successfully installed.",
+      });
+    });
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
-  }, [isMobile]);
+  }, [toast, isMobile]);
 
   const handleInstall = async () => {
-    if (!deferredPrompt) return;
+    if (!deferredPrompt) {
+      console.log('No deferred prompt available');
+      toast({
+        title: "Installation",
+        description: "Please use your browser's install option if available.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     try {
+      console.log('Prompting for installation');
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       
+      console.log(`User choice: ${outcome}`);
       if (outcome === 'accepted') {
         toast({
           title: "Installation Started",
@@ -68,8 +91,7 @@ const PWAInstallPrompt = () => {
     localStorage.setItem('pwaPromptShown', 'true');
   };
 
-  // PWA prompt won't appear in development/preview mode
-  // It requires HTTPS and proper deployment
+  // Don't render anything if not showing prompt
   if (!showPrompt) return null;
 
   return (
@@ -97,7 +119,7 @@ const PWAInstallPrompt = () => {
             Install Portfolio App
           </SheetTitle>
           <SheetDescription>
-            Add this app to your home screen for quick access to my portfolio
+            Add this app to your home screen for quick access, offline support, and a better experience
           </SheetDescription>
         </SheetHeader>
         <div className="mt-6 flex justify-end space-x-4">
@@ -106,6 +128,7 @@ const PWAInstallPrompt = () => {
           </Button>
           <Button onClick={handleInstall} className="relative overflow-hidden group">
             <span className="relative z-10">Install Now</span>
+            <Download className="ml-2 h-4 w-4" />
             <motion.div
               className="absolute inset-0 bg-primary/20"
               initial={{ x: "-100%" }}

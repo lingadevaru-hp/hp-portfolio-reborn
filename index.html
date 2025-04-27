@@ -4,16 +4,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
-    <title>Lingadevaru HP | Portfolio</title>
-    <meta name="description" content="Lingadevaru HP's personal portfolio website showcasing skills, projects and experiences" />
-    <meta name="author" content="Lingadevaru HP" />
+    <title>Lingadevaru | Portfolio</title>
+    <meta name="description" content="Lingadevaru's personal portfolio website showcasing skills, projects and experiences" />
+    <meta name="author" content="Lingadevaru" />
 
     <!-- PWA meta tags -->
     <meta name="theme-color" content="#818cf8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="HP Portfolio" />
-    <link rel="manifest" href="/manifest.json" />
+    <meta name="apple-mobile-web-app-title" content="Lingadevaru" />
+    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
     
     <!-- Favicon and app icons -->
     <link rel="icon" href="/icons/favicon.ico" type="image/x-icon">
@@ -34,8 +34,8 @@
     <link rel="apple-touch-startup-image" href="/icons/apple-splash-640-1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 
     <!-- Social meta tags -->
-    <meta property="og:title" content="Lingadevaru HP | Portfolio" />
-    <meta property="og:description" content="Lingadevaru HP's personal portfolio website showcasing skills, projects and experiences" />
+    <meta property="og:title" content="Lingadevaru | Portfolio" />
+    <meta property="og:description" content="Lingadevaru's personal portfolio website showcasing skills, projects and experiences" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/icons/og-image.png" />
     <meta property="og:url" content="https://lingadevaru.in" />
@@ -54,7 +54,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
+          navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
             .then(registration => {
               console.log('SW registered:', registration);
             })
@@ -62,6 +62,14 @@
               console.log('SW registration failed:', error);
             });
         });
+      }
+      
+      // Log if running in standalone mode (installed PWA)
+      if (window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator.standalone === true)) {
+        console.log('Running as installed PWA');
+      } else {
+        console.log('Running in browser');
       }
     </script>
   </body>

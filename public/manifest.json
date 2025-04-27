@@ -65,6 +65,13 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Projects Screen of Lingadevaru Portfolio"
+    },
+    {
+      "src": "/screenshots/desktop-home.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop Home Screen of Lingadevaru Portfolio"
     }
   ],
   "categories": ["portfolio", "development", "technology"],
@@ -78,7 +85,18 @@
       "name": "Skills",
       "url": "/skills",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Contact",
+      "url": "/contact",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ],
-  "related_applications": []
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": ["navigate-existing", "auto"]
+  },
+  "id": "lingadevaru-portfolio"
 }
