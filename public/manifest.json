@@ -3,7 +3,7 @@
   "name": "Lingadevaru Portfolio",
   "short_name": "Lingadevaru",
   "description": "Lingadevaru's personal portfolio website showcasing skills, projects and experiences",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#0f172a",

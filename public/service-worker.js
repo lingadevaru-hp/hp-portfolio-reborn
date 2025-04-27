@@ -11,11 +11,12 @@ const urlsToCache = [
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
   '/icons/apple-touch-icon.png',
-  '/src/index.css',
-  '/src/main.tsx'
+  '/icons/favicon.ico',
+  '/icons/favicon-16x16.png',
+  '/icons/favicon-32x32.png'
 ];
 
-// Install event
+// Install event - Cache-first for core assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -44,29 +45,56 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - Network first, falling back to cache
+// Fetch event - Cache-first for navigation and cached assets, network-first for other requests
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // Cache a copy of the response
-        if (response.status === 200) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseClone);
+  // For navigation requests or cached assets, try cache first
+  if (event.request.mode === 'navigate' || 
+      urlsToCache.includes(new URL(event.request.url).pathname)) {
+    event.respondWith(
+      caches.match(event.request)
+        .then((response) => {
+          return response || fetch(event.request)
+            .then((fetchResponse) => {
+              // Cache the fetched response if it's valid
+              if (fetchResponse && fetchResponse.status === 200) {
+                const responseToCache = fetchResponse.clone();
+                caches.open(CACHE_NAME)
+                  .then((cache) => {
+                    cache.put(event.request, responseToCache);
+                  });
+              }
+              return fetchResponse;
             });
-        }
-        return response;
-      })
-      .catch(() => {
-        // If network fetch fails, try the cache
-        return caches.match(event.request)
-          .then((response) => {
-            return response || caches.match('/');
-          });
-      })
-  );
+        })
+        .catch(() => {
+          // For navigation requests that fail, return the cached homepage
+          if (event.request.mode === 'navigate') {
+            return caches.match('/');
+          }
+          return new Response('Offline content not available');
+        })
+    );
+  } else {
+    // For other requests, use network-first strategy
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // Cache a copy of the response
+          if (response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseClone);
+              });
+          }
+          return response;
+        })
+        .catch(() => {
+          // If network fetch fails, try the cache
+          return caches.match(event.request);
+        })
+    );
+  }
 });
 
 // Handle push notifications
