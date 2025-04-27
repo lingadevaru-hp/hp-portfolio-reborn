@@ -7,7 +7,7 @@ interface NameSwitcherProps {
 }
 
 const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
-  const fullNameText = "Hi👋I am Lingadevaru HP";
+  const fullNameText = "Hello,I am Lingadevaru";
   const nickname = "Thoshan HP";
 
   const [displayText, setDisplayText] = useState(fullNameText);
@@ -69,7 +69,7 @@ const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
       }
 
       case "typeFullName": {
-        const fullNameWithoutPrefix = "Lingadevaru HP";
+        const fullNameWithoutPrefix = "Lingadevaru";
         if (displayText.length < startingText.length + fullNameWithoutPrefix.length) {
           timeout = setTimeout(() => {
             setDisplayText(startingText + fullNameWithoutPrefix.slice(0, displayText.length - startingText.length + 1));
