@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'hp-portfolio-v1';
+const CACHE_NAME = 'lingadevaru-portfolio-v1';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -13,88 +13,78 @@ const urlsToCache = [
   '/icons/apple-touch-icon.png',
   '/icons/favicon.ico',
   '/icons/favicon-16x16.png',
-  '/icons/favicon-32x32.png'
+  '/icons/favicon-32x32.png',
+  // Add CSS and JS files
+  '/index.css',
+  '/assets/index-*.js', // Pattern to match Vite's output
+  '/assets/index-*.css' // Pattern to match Vite's output
 ];
 
 // Install event - Cache-first for core assets
 self.addEventListener('install', (event) => {
+  console.log('Service Worker: Installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Cache opened');
+        console.log('Service Worker: Cache opened');
         return cache.addAll(urlsToCache);
       })
-      .then(() => self.skipWaiting())
+      .then(() => {
+        console.log('Service Worker: Installation completed');
+        return self.skipWaiting();
+      })
   );
 });
 
 // Activate event
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker: Activating...');
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Service Worker: Deleting old cache', cacheName);
             return caches.delete(cacheName);
           }
           return null;
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      console.log('Service Worker: Activated');
+      return self.clients.claim();
+    })
   );
 });
 
-// Fetch event - Cache-first for navigation and cached assets, network-first for other requests
+// Fetch event - Stale-while-revalidate strategy
 self.addEventListener('fetch', (event) => {
-  // For navigation requests or cached assets, try cache first
-  if (event.request.mode === 'navigate' || 
-      urlsToCache.includes(new URL(event.request.url).pathname)) {
-    event.respondWith(
-      caches.match(event.request)
-        .then((response) => {
-          return response || fetch(event.request)
-            .then((fetchResponse) => {
-              // Cache the fetched response if it's valid
-              if (fetchResponse && fetchResponse.status === 200) {
-                const responseToCache = fetchResponse.clone();
-                caches.open(CACHE_NAME)
-                  .then((cache) => {
-                    cache.put(event.request, responseToCache);
-                  });
-              }
-              return fetchResponse;
-            });
-        })
-        .catch(() => {
-          // For navigation requests that fail, return the cached homepage
-          if (event.request.mode === 'navigate') {
-            return caches.match('/');
-          }
-          return new Response('Offline content not available');
-        })
-    );
-  } else {
-    // For other requests, use network-first strategy
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Cache a copy of the response
-          if (response.status === 200) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseClone);
-              });
-          }
-          return response;
-        })
-        .catch(() => {
-          // If network fetch fails, try the cache
-          return caches.match(event.request);
-        })
-    );
+  // Skip cross-origin requests
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
   }
+
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      const fetchPromise = fetch(event.request)
+        .then(networkResponse => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseToCache);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(error => {
+          console.error('Fetch failed:', error);
+          // No need to return anything here - we'll use cached response
+        });
+      
+      return cachedResponse || fetchPromise;
+    })
+  );
 });
 
 // Handle push notifications
@@ -112,8 +102,5 @@ self.addEventListener('push', (event) => {
 // Handle notification clicks
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-
-  event.waitUntil(
-    clients.openWindow('/')
-  );
+  event.waitUntil(clients.openWindow('/'));
 });
