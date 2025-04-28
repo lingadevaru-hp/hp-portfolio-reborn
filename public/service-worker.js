@@ -1,13 +1,9 @@
 
-const CACHE_NAME = 'lingadevaru-portfolio-v1';
+const CACHE_NAME = 'lingadevaru-portfolio-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icons/icon-72x72.png',
-  '/icons/icon-96x96.png',
-  '/icons/icon-128x128.png',
-  '/icons/icon-144x144.png',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png',
   '/icons/apple-touch-icon.png',
@@ -20,13 +16,13 @@ const urlsToCache = [
   '/assets/index-*.css' // Pattern to match Vite's output
 ];
 
-// Install event - Cache-first for core assets
+// Install event - Cache core assets immediately
 self.addEventListener('install', (event) => {
   console.log('Service Worker: Installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Service Worker: Cache opened');
+        console.log('Service Worker: Caching shell resources');
         return cache.addAll(urlsToCache);
       })
       .then(() => {
@@ -36,7 +32,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event
+// Activate event - Clean up old caches
 self.addEventListener('activate', (event) => {
   console.log('Service Worker: Activating...');
   const cacheWhitelist = [CACHE_NAME];
@@ -65,10 +61,39 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // For HTML pages, use network-first to ensure fresh content
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Cache a copy of the response
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
+          return response;
+        })
+        .catch(() => {
+          // If network fails, try the cache
+          return caches.match(event.request).then(cachedResponse => {
+            if (cachedResponse) {
+              return cachedResponse;
+            }
+            // Fallback to root if specific page not in cache
+            return caches.match('/');
+          });
+        })
+    );
+    return;
+  }
+
+  // For other requests use stale-while-revalidate
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
+      // Return cached response immediately if available
       const fetchPromise = fetch(event.request)
         .then(networkResponse => {
+          // Cache the new response for future
           if (networkResponse && networkResponse.status === 200) {
             const responseToCache = networkResponse.clone();
             caches.open(CACHE_NAME).then(cache => {

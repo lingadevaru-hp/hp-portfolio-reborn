@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download } from 'lucide-react'; // Changed from Install to Download
+import { Download } from 'lucide-react';
 
 const PWAInstallBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -17,12 +17,14 @@ const PWAInstallBanner = () => {
         e.preventDefault();
         setDeferredPrompt(e);
         setShowBanner(true);
+        console.log('beforeinstallprompt event fired and captured');
       };
 
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
       // Hide banner if app is installed
       window.addEventListener('appinstalled', () => {
+        console.log('PWA installed from banner');
         setShowBanner(false);
         setDeferredPrompt(null);
       });
@@ -40,13 +42,11 @@ const PWAInstallBanner = () => {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       
-      if (outcome === 'accepted') {
-        console.log('PWA installation accepted');
-      }
+      console.log(`User choice from banner: ${outcome}`);
       setDeferredPrompt(null);
       setShowBanner(false);
     } catch (error) {
-      console.error('Installation failed:', error);
+      console.error('Installation from banner failed:', error);
     }
   };
 
@@ -70,7 +70,7 @@ const PWAInstallBanner = () => {
               size="sm"
             >
               Install Now
-              <Download className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" /> {/* Changed icon */}
+              <Download className="ml-2 h-4 w-4 group-hover:translate-y-[2px] transition-transform" />
             </Button>
           </div>
         </motion.div>

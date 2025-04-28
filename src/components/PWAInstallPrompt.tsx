@@ -18,7 +18,7 @@ const PWAInstallPrompt = () => {
       e.preventDefault();
       setDeferredPrompt(e);
       
-      // Show prompt after 3 seconds for better user experience
+      // Show prompt after 2 seconds for better user experience
       setTimeout(() => {
         const hasPromptBeenShown = localStorage.getItem('pwaPromptShown');
         
@@ -27,7 +27,7 @@ const PWAInstallPrompt = () => {
           setShowPrompt(true);
           console.log('PWA install prompt displayed');
         }
-      }, 3000);
+      }, 2000);
     };
 
     // Log when beforeinstallprompt fires
@@ -47,7 +47,7 @@ const PWAInstallPrompt = () => {
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
-  }, [toast, isMobile]);
+  }, [toast]);
 
   const handleInstall = async () => {
     if (!deferredPrompt) {
@@ -112,9 +112,9 @@ const PWAInstallPrompt = () => {
               src="/icons/icon-192x192.png" 
               alt="App Icon" 
               className="w-8 h-8 rounded-xl"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
             />
             Install Portfolio App
           </SheetTitle>
@@ -126,11 +126,16 @@ const PWAInstallPrompt = () => {
           <Button variant="outline" onClick={handleDismiss}>
             Maybe Later
           </Button>
-          <Button onClick={handleInstall} className="relative overflow-hidden group">
-            <span className="relative z-10">Install Now</span>
-            <Download className="ml-2 h-4 w-4" />
+          <Button 
+            onClick={handleInstall} 
+            className="relative overflow-hidden group bg-gradient-to-r from-primary to-accent"
+          >
+            <span className="relative z-10 flex items-center">
+              Install Now
+              <Download className="ml-2 h-4 w-4 group-hover:translate-y-[2px] transition-transform" />
+            </span>
             <motion.div
-              className="absolute inset-0 bg-primary/20"
+              className="absolute inset-0 bg-white/10"
               initial={{ x: "-100%" }}
               whileHover={{ x: 0 }}
               transition={{ duration: 0.3 }}
