@@ -8,7 +8,7 @@ interface NameSwitcherProps {
 
 const NameSwitcher: React.FC<NameSwitcherProps> = ({ className = "" }) => {
   const fullNameText = "Hello,I am Lingadevaru";
-  const nickname = "Thoshan HP";
+  const nickname = "Thoshan";
 
   const [displayText, setDisplayText] = useState(fullNameText);
   const [stage, setStage] = useState<"full" | "eraseFullName" | "typeNick" | "eraseNick" | "typeFullName">("full");

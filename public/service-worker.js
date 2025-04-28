@@ -99,7 +99,7 @@ self.addEventListener('fetch', (event) => {
 
 // Handle push notifications
 self.addEventListener('push', (event) => {
-  const title = 'Lingadevaru HP Portfolio';
+  const title = 'Lingadevaru Portfolio';
   const options = {
     body: event.data ? event.data.text() : 'New updates available!',
     icon: '/icons/icon-192x192.png',
