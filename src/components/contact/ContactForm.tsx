@@ -33,7 +33,7 @@ const ContactForm = () => {
         <input
           type="hidden"
           name="_autoresponse"
-          value="Thank you for contacting Lingadevaru HP! I will get back to you soon."
+          value="Thank you bro for contacting Lingadevaru HP! I will get back to you soon."
         />
         <input
           type="hidden"
@@ -80,7 +80,7 @@ const ContactForm = () => {
 
         {isSubmitted && (
           <div className="text-green-400 text-center mt-4">
-            ✅ Your message has been sent successfully!
+            ✅ Bro  Your message has been sent successfully! i will msg you 
           </div>
         )}
       </form>
