@@ -5,10 +5,16 @@ const ContactForm = () => {
     <div className="container">
       <h1>Contact Us</h1>
       <form
-        target="_blank"
         action="https://formsubmit.co/contact@lingadevaru.in"
         method="POST"
       >
+        {/* Hidden Inputs for FormSubmit Settings */}
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_subject" value="New Message from Portfolio Website!" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_autoresponse" value="Thank you bro for reaching out! I will get back to you shortly." />
+
+        {/* Form Fields */}
         <div className="form-group">
           <div className="form-row">
             <div className="col">
