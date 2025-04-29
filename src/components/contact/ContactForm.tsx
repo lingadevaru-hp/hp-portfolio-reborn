@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { processContactForm } from "@/lib/llm";
 
 const ContactForm = () => {
-  const [submissionStatus, setSubmissionStatus] = useState<
+  const [submissionStatus, setSubmissionStatus] = useState<   
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [popupMessage, setPopupMessage] = useState("");
@@ -16,61 +16,41 @@ const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setSubmissionStatus("loading");
-    setSuccessMessage("");
     const formData = new FormData(e.currentTarget);
-    
-      // Extract data for processContactForm
-      const name = formData.get("name") as string;
-      const email = formData.get("email") as string;
-      const message = formData.get("message") as string;
-      
+    // Extract data for processContactForm
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const message = formData.get("message") as string;
+    e.preventDefault();
     try {
-      
-      e.preventDefault();
       // Process and get the reply
       const reply = await processContactForm(name, email, message);
       setPopupMessage(reply);
       setSubmissionStatus("success");
     } catch (error) {
       setSubmissionStatus("error");
-      console.error("Error submitting the form", error);
+      console.error("Error submitting the form", error);   
       setPopupMessage("Sorry, there was an error processing your message.");
     }
-    finally{
-      
-    }
   };
-  
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-900">
       <h1 className="text-3xl text-white mb-6">Contact Us</h1>
 
       <form onSubmit={handleSubmit} className="w-full max-w-lg space-y-6">
-        {/* Hidden Fields */}
-        <input type="hidden" name="_captcha" value="false" />
-        <input
-          type="hidden"
-          name="_autoresponse"
-          value="Thank you bro for contacting Lingadevaru HP! I will get back to you soon."
-        />
-        <input
-          type="hidden"
-          name="_subject"
-          value="New Message from Lingadevaru Website!"
-        />
-
         <div>
           <input
             type="text"
             name="name"
             placeholder="Full Name"
             required
-            className="w-full p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"   
           />
         </div>
 
         <div>
-          <input
+          <input        
             type="email"
             name="email"
             placeholder="Email Address"
@@ -106,20 +86,26 @@ const ContactForm = () => {
               )}
               {submissionStatus === "success" && (
                 <div className="text-green-400 text-center">
-                   <p>{popupMessage}</p>
+                  <p>{popupMessage}</p>
                 </div>
               )}
               {submissionStatus === "error" && (
                 <div className="text-red-400 text-center">
                   <p>{popupMessage}</p>
                 </div>
-              )}
-              <button className="mt-4 p-2 bg-gray-300 rounded-md" onClick={() => {setShowPopup(false); setSubmissionStatus("idle")}}>
+              )}    
+              <button
+                className="mt-4 p-2 bg-gray-300 rounded-md"
+                onClick={() => {
+                  setShowPopup(false);
+                  setSubmissionStatus("idle");
+                }}
+              >
                 Close
               </button>
             </div>
           </div>
-        )} 
+        )}
       </form>
     </div>
   );

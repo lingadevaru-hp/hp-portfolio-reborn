@@ -10,8 +10,6 @@ import { X, Download } from 'lucide-react';
 const PWAInstallPrompt = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const isMobile = useIsMobile();
-  const { toast } = useToast();
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -47,7 +45,7 @@ const PWAInstallPrompt = () => {
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
-  }, [toast]);
+  }, []);
 
   const handleInstall = async () => {
     if (!deferredPrompt) {

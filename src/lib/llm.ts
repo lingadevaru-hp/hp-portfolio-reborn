@@ -4,23 +4,32 @@
  * For this example an imaginary API is used, this code is for illustrative purposes only.
  */
 
+import process from 'process';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import MailerSend from "mailersend";
-const genAI = new GoogleGenerativeAI("AIzaSyCwD-hYhnf4xH8FVML1K3tGhIBr6yJc3r4");
+
+// Initialize Gemini and MailerSend
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!); // This key must be in the .env file
+const MAILERSEND_API_KEY = process.env.MAILERSEND_API_KEY!;// This key must be in the .env file
+
 
 const personalDetails = {
-    name: "John",
-    profession: "software developer",
-    availability: "mornings and evenings",
-    notAvailable: "afternoons",
-    interests: ["software development"], // Add other interests here if needed
-};
-
-const MAILERSEND_API_KEY = "mlsn.e71cfa349124c26e7f48ee3c954dc6b2826526a2cf4daa7b35d70d98ef3c99d2"; // Replace with your actual API key
-const FROM_EMAIL = "contact@lingadevaru.in";
+    name: "Lingadevaru HP",
+    profession: "Computer Science student & Full Stack Developer",
+    location: "Tumkur, India",
+    availability: "Monday to Sunday, 12 AM to 12 PM IST",
+    notAvailable: "Weekends & public holidays",
+    interests: ["Linux", "Open Source", "Artificial Intelligence", "Yoga", "Mindfulness"],
+    website: "lingadevaru.in",
+    tone: "Friendly, witty, flirty when casual, but confident and professional when needed",
+}
 
 /** 
- * Simulates a call to an LLM.
+ * Sends a prompt to the LLM to get a response.
+ * @throws Error if the required environment variables are not set.
+ * @throws Error if the required environment variables are not a string.
+ * @throws Error if the required environment variables are empty.
+ * 
  * @param prompt The prompt to send to the LLM.
  * @returns A promise that resolves with the LLM's response.
  */
@@ -31,24 +40,48 @@ async function getLLMResponse(prompt: string): Promise<string> {
     const response = await result.response;
     const text = response.text();
     console.log("LLM response:", text);
+    if (!process.env.GOOGLE_GEMINI_API_KEY) {
+        throw new Error("GOOGLE_GEMINI_API_KEY environment variable is not set");
+    }
+    if (typeof process.env.GOOGLE_GEMINI_API_KEY !== "string") {
+        throw new Error("GOOGLE_GEMINI_API_KEY environment variable is not a string");
+    }
+    if (!process.env.GOOGLE_GEMINI_API_KEY.trim()) {
+        throw new Error("GOOGLE_GEMINI_API_KEY environment variable is empty");
+    }
     return text;
-
 }
 
 /** 
  * Sends an email using the MailerSend API.
+ * @throws Error if the required environment variables are not set.
  * @param toEmail The recipient's email address.
+ * @throws Error if the FROM_EMAIL environment variable is not set.
+ * @throws Error if the MAILERSEND_API_KEY is not a string.
+ * @throws Error if the MAILERSEND_API_KEY is empty.
+ * @throws Error if the FROM_EMAIL is not a string.
+ * @throws Error if the FROM_EMAIL is empty.
  * @param response The response to send to the user.
  * @returns A Promise that resolves with a success message or rejects with an error message.
  */
 async function sendEmail(toEmail: string, response: string): Promise<string> {
-    const mailerSend = new MailerSend({
-        api_key: MAILERSEND_API_KEY,
-    });
+    const mailerSend = new MailerSend({ api_key: process.env.MAILERSEND_API_KEY! });
+    if (!process.env.MAILERSEND_API_KEY) {
+        throw new Error("MAILERSEND_API_KEY environment variable is not set");
+    }
+    if (!process.env.FROM_EMAIL) {
+        throw new Error("FROM_EMAIL environment variable is not set");
+    }
+    if (typeof process.env.MAILERSEND_API_KEY !== "string") {
+        throw new Error("MAILERSEND_API_KEY environment variable is not a string");
+    }
+    if (!process.env.MAILERSEND_API_KEY.trim()) {
+        throw new Error("MAILERSEND_API_KEY environment variable is empty");
+    }
 
     const sentFrom = {
-        email: FROM_EMAIL,
-        name: "John",
+        email: process.env.FROM_EMAIL!,
+        name: "Lingadevaru HP",
     };
 
     const recipients = [
@@ -60,7 +93,7 @@ async function sendEmail(toEmail: string, response: string): Promise<string> {
     const emailParams = {
         from: sentFrom,
         to: recipients,
-        subject: "Response from John",
+        subject: "Response from Lingadevaru HP",
         html: `<p>${response}</p>`,
     };
 
@@ -72,19 +105,78 @@ async function sendEmail(toEmail: string, response: string): Promise<string> {
         throw new Error("Failed to send email.");
     }
 }
+
 /**
  * Processes the contact form data, interacts with the LLM, and sends an email.
  */
-
 export async function processContactForm(name: string, email: string, message: string): Promise<string> {
-    const prompt = `
-  Objective: Act as me, ${personalDetails.name}, a ${personalDetails.profession}, and generate a friendly and helpful email response to a user who contacted me.
-  Personal Details: My name is ${personalDetails.name}, I am a ${personalDetails.profession}. I like to hang out in the ${personalDetails.availability}, but not in the ${personalDetails.notAvailable}. I like ${personalDetails.interests.join(", ")}
+    const prompt = `You are acting as **${personalDetails.name}**, a **${personalDetails.profession}** based in **${personalDetails.location}**. You’re known for your mix of **friendly professionalism, fun personality, flirty charm**, and your signature **Kannada-English blend** of communication.
 
-  User Details: The user's name is ${name}, their email is ${email}, and their message is: ${message}.
-  Instructions: Generate an email to be sent to ${email} that replies to the user's message. Reply in first person, from my point of view. Be friendly and helpful.
-  Email:
-  `;
+#### 🧠 **${personalDetails.name} Persona:**
+
+- **Name:** ${personalDetails.name}
+- **Profession:** ${personalDetails.profession}
+- **Location:** ${personalDetails.location}
+- **Availability:** ${personalDetails.availability}
+- **Non-availability:** ${personalDetails.notAvailable}
+- **Interests:** ${personalDetails.interests.join(", ")}
+- **Website:** ${personalDetails.website}
+- **Tone:** ${personalDetails.tone}
+
+---
+
+#### 💌 **Reply Format to User Messages (From Contact Form)**
+
+When a user submits the contact form with:
+- **Name** : ${name}
+- **Email** : ${email}
+- **Message** : ${message}
+
+Generate an **email reply** in the following way:
+
+---
+
+### ✅ **Tone Rules:**
+1. **Friendly and professional** — match the energy of the user
+2. **Include flirty or playful lines** if the message is casual or fun
+3. Use **Kannada + English** mix in a natural, chill way
+4. If it's a serious business or collab inquiry, **tone it down slightly but stay warm**
+5. If message has errors (like invalid email, or gibberish), politely point that out in a humorous tone
+
+---
+
+### ✉️ **Email Reply Template:**
+**Subject:** Got your message! 😄 | ${personalDetails.name} here
+**Body:**  
+Hi ${name} 👋,
+
+Nim message nodi, swalpa smile barthaytu 😄  
+Thanks for reaching out! I read what you said:  
+> "${message}"
+
+✨ First of all, **nice to meet you**! I'm **${personalDetails.name}**, full-stack dev, Linux lover, and yoga enthusiast based in **${personalDetails.location}** — you can stalk my tech brain at ${personalDetails.website} 😎
+
+[IF casual/flirty message]  
+Hmmm... idu thumba interesting agide 😉  
+Looks like we vibe on the same frequency. Ondu hangout plan maadona aa 6AM suggestion nodi, swalpa nanna schedule check maadbeku. But neevu nimma email haakiddu, so I'll keep you posted 😏
+
+[IF message is professional or collab-based]  
+Your idea looks solid! I'd love to connect and explore how we can work together. I’m available ${personalDetails.availability} (except ${personalDetails.notAvailable}).  
+Shall we plan a quick call or email thread?
+
+[IF invalid email or gibberish]  
+Oops, I tried replying but your email ID looks a bit off 😅 Can you double-check and resend? Also, I think the message was half-asleep 🤭
+
+📞 If you're comfy, share your **phone number** too — we can coordinate faster.
+
+Tilli then, keep coding, keep vibing ✨  
+Talk soon!  
+
+With good vibes,  
+**${personalDetails.name}**  
+📍${personalDetails.location}  
+🌐 ${personalDetails.website}  
+📩 contact@lingadevaru.in`;
 
     try {
         const response = await getLLMResponse(prompt);
