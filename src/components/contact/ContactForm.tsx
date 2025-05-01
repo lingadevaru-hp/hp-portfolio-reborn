@@ -1,117 +1,59 @@
-import React, { useState, useEffect } from "react";
-import { processContactForm } from "@/lib/llm";
+// src/components/contact/ContactForm.tsx
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { Send } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import axios from 'axios';
 
 const ContactForm = () => {
-  const [submissionStatus, setSubmissionStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
-  const [popupMessage, setPopupMessage] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (submissionStatus === "success" || submissionStatus === "error") {
-      setShowPopup(true);
-    }
-  }, [submissionStatus]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    setSubmissionStatus("loading");
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const message = formData.get("message") as string;
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     try {
-      const reply = await processContactForm(name, email, message);
-      setPopupMessage(reply);
-      setSubmissionStatus("success");
+      // ← Updated to n8n webhook URL
+      await axios.post(
+        'https://thoshan.app.n8n.cloud/webhook/contact-form',
+        formData,
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      toast({ title: "Message sent!", description: "Thank you for your message. I'll get back to you soon." });
+      setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      setSubmissionStatus("error");
-      console.error("Error submitting the form", error);
-      setPopupMessage("Sorry, there was an error processing your message.");
+      toast({ title: "Error!", description: "There was an error submitting your message. Please try again." });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gray-900">
-      <h1 className="text-3xl text-white mb-6">Contact Us</h1>
-
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-lg space-y-6"
-        action="https://thoshan.app.n8n.cloud/webhook-test/contact-form"
-        method="POST"
-      >
-        <div>
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            required
-            className="w-full p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-        </div>
-
-        <div>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            required
-            className="w-full p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-        </div>
-
-        <div>
-          <textarea
-            name="message"
-            rows={5}
-            placeholder="Your Message"
-            required
-            className="w-full p-3 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-          ></textarea>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition duration-300"
-        >
-          Submit
-        </button>
-
-        {showPopup && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg">
-              {submissionStatus === "loading" && (
-                <div className="text-blue-400 text-center">
-                  ⏳ Processing... Please wait.
-                </div>
-              )}
-              {submissionStatus === "success" && (
-                <div className="text-green-400 text-center">
-                  <p>{popupMessage}</p>
-                </div>
-              )}
-              {submissionStatus === "error" && (
-                <div className="text-red-400 text-center">
-                  <p>{popupMessage}</p>
-                </div>
-              )}
-              <button
-                className="mt-4 p-2 bg-gray-300 rounded-md"
-                onClick={() => {
-                  setShowPopup(false);
-                  setSubmissionStatus("idle");
-                }}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-      </form>
-    </div>
+    <motion.div /* animation props omitted for brevity */>
+      <Card className="bg-card/50 border-gradient overflow-hidden h-full shadow-sm hover:shadow-md transition-all">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required className="bg-background/50" />  
+            <Input name="email" type="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required className="bg-background/50" />  
+            <Textarea name="message" rows={5} placeholder="Your Message" value={formData.message} onChange={handleChange} required className="min-h-[120px] bg-background/50" />  
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Sending..." : "Send Message"} <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };
 
