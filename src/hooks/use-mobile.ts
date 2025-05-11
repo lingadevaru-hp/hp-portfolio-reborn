@@ -22,4 +22,7 @@ export const useMobile = (breakpoint = 768) => {
   return isMobile;
 };
 
+// Add an alias for backward compatibility
+export const useIsMobile = useMobile;
+
 export default useMobile;

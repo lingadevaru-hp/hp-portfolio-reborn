@@ -1,3 +1,4 @@
+
 /**
  * This file contains the backend logic for processing the contact form,
  * including LLM interaction and email sending using SendGrid.
@@ -6,7 +7,7 @@
 
 import process from 'process';
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import MailerSend from "mailersend";
+import * as MailerSend from "mailersend";
 
 // Initialize Gemini and MailerSend
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!); // This key must be in the .env file
@@ -65,7 +66,7 @@ async function getLLMResponse(prompt: string): Promise<string> {
  * @returns A Promise that resolves with a success message or rejects with an error message.
  */
 async function sendEmail(toEmail: string, response: string): Promise<string> {
-    const mailerSend = new MailerSend({ api_key: process.env.MAILERSEND_API_KEY! });
+    const mailerSend = new MailerSend.default({ api_key: process.env.MAILERSEND_API_KEY! });
     if (!process.env.MAILERSEND_API_KEY) {
         throw new Error("MAILERSEND_API_KEY environment variable is not set");
     }
@@ -100,7 +101,7 @@ async function sendEmail(toEmail: string, response: string): Promise<string> {
     try {
         await mailerSend.email.send(emailParams);
         return "Email sent successfully!";
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error sending email:", error.body);
         throw new Error("Failed to send email.");
     }
@@ -110,7 +111,7 @@ async function sendEmail(toEmail: string, response: string): Promise<string> {
  * Processes the contact form data, interacts with the LLM, and sends an email.
  */
 export async function processContactForm(name: string, email: string, message: string): Promise<string> {
-    const prompt = `You are acting as **${personalDetails.name}**, a **${personalDetails.profession}** based in **${personalDetails.location}**. You’re known for your mix of **friendly professionalism, fun personality, flirty charm**, and your signature **Kannada-English blend** of communication.
+    const prompt = `You are acting as **${personalDetails.name}**, a **${personalDetails.profession}** based in **${personalDetails.location}**. You're known for your mix of **friendly professionalism, fun personality, flirty charm**, and your signature **Kannada-English blend** of communication.
 
 #### 🧠 **${personalDetails.name} Persona:**
 
@@ -161,7 +162,7 @@ Hmmm... idu thumba interesting agide 😉
 Looks like we vibe on the same frequency. Ondu hangout plan maadona aa 6AM suggestion nodi, swalpa nanna schedule check maadbeku. But neevu nimma email haakiddu, so I'll keep you posted 😏
 
 [IF message is professional or collab-based]  
-Your idea looks solid! I'd love to connect and explore how we can work together. I’m available ${personalDetails.availability} (except ${personalDetails.notAvailable}).  
+Your idea looks solid! I'd love to connect and explore how we can work together. I'm available ${personalDetails.availability} (except ${personalDetails.notAvailable}).  
 Shall we plan a quick call or email thread?
 
 [IF invalid email or gibberish]  
