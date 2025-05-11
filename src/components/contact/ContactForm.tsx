@@ -1,4 +1,4 @@
-// src/components/contact/ContactForm.tsx
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,15 +39,24 @@ const ContactForm = () => {
   };
 
   return (
-    <motion.div /* animation props omitted for brevity */>
+    <motion.div 
+      variants={{
+        hidden: { y: 20, opacity: 0 },
+        visible: { 
+          y: 0, 
+          opacity: 1, 
+          transition: { type: "spring", stiffness: 100 } 
+        }
+      }}
+    >
       <Card className="bg-card/50 border-gradient overflow-hidden h-full shadow-sm hover:shadow-md transition-all">
         <CardContent className="p-6">
           <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required className="bg-background/50" />  
             <Input name="email" type="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required className="bg-background/50" />  
-            <Textarea name="message" rows={5} placeholder="Your Message" value={formData.message} onChange={handleChange} required className="min-h-[120px] bg-background/50" />  
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Textarea name="message" placeholder="Your Message" value={formData.message} onChange={handleChange} required className="min-h-[120px] bg-background/50" />  
+            <Button type="submit" className="w-full group" disabled={isSubmitting}>
               {isSubmitting ? "Sending..." : "Send Message"} <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
           </form>
