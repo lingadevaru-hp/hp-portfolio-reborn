@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -71,7 +70,18 @@ const ProjectsSection = () => {
         
         const data = await response.json();
         
-        // Add Academic Mirror project at the beginning
+        // Add LocalPulse project at the beginning
+        const localPulseProject: Repository = {
+          id: 888888, // Unique ID
+          name: "LocalPulse",
+          description: "A platform for local insights and community engagement. Discover what's happening in your area with real-time updates.",
+          html_url: "https://github.com/lingadevaru-hp/localpulse",
+          homepage: "https://localpulse.lingadevaru.in",
+          topics: ["react", "community", "local-insights", "real-time"],
+          fork: false
+        };
+        
+        // Add Academic Mirror project 
         const academicMirrorProject: Repository = {
           id: 999999, // Unique ID
           name: "Academic Mirror",
@@ -84,21 +94,30 @@ const ProjectsSection = () => {
         
         const filteredProjects = data
           .filter((repo: Repository) => !repo.fork)
-          .slice(0, 5);
+          .slice(0, 4); // Reduced to 4 to make room for our custom projects
           
-        setProjects([academicMirrorProject, ...filteredProjects]);
+        setProjects([localPulseProject, academicMirrorProject, ...filteredProjects]);
       } catch (err) {
         console.error("Error fetching projects:", err);
         setError("Failed to load all projects from GitHub. Showing available ones.");
         
-        // Fallback with at least the Academic Mirror project
+        // Fallback with at least LocalPulse and Academic Mirror projects
         setProjects([
+          {
+            id: 888888,
+            name: "LocalPulse",
+            description: "A platform for local insights and community engagement. Discover what's happening in your area with real-time updates.",
+            html_url: "https://github.com/lingadevaru-hp/localpulse",
+            homepage: "https://localpulse.lingadevaru.in",
+            topics: ["react", "community", "local-insights", "real-time"],
+            fork: false
+          },
           {
             id: 999999,
             name: "Academic Mirror",
             description: "Smart solution to view academic data at a glance. A streamlined platform for academic information management.",
-            html_url: "https://github.com/lingadevaru-hp/academic-mirror",
-            homepage: "https://academicsmirror.lingadevaru.in",
+            html_url: "https://github.com/lingadevaru-hp/academic-mirror-final",
+            homepage: "https://academic-mirror.lingadevaru.in",
             topics: ["react", "education", "dashboard", "academic-data"],
             fork: false
           },
