@@ -42,7 +42,8 @@ npm run dev
 
 ## Contact
 Feel free to reach out to me:
-- Email: lingadevaruph@gmail.com
+- Email: contact@lingadevaru.in
+- Location: Bangalore, India
 - GitHub: [@linhadevaru-hp](https://github.com/linhadevaru-hp)
 
 ## License
