@@ -18,16 +18,18 @@ const PWAInstallPrompt = () => {
       e.preventDefault();
       setDeferredPrompt(e);
       
-      // Show prompt after 2 seconds for better user experience
+      // Show prompt after 3 seconds for better user experience
       setTimeout(() => {
         const hasPromptBeenShown = localStorage.getItem('pwaPromptShown');
+        const pwaBannerDismissed = localStorage.getItem('pwaBannerDismissed');
         
         // Only show if not already dismissed or installed
-        if (!hasPromptBeenShown && !window.matchMedia('(display-mode: standalone)').matches) {
+        // Also respect the banner dismiss preference
+        if (!hasPromptBeenShown && !pwaBannerDismissed && !window.matchMedia('(display-mode: standalone)').matches) {
           setShowPrompt(true);
           console.log('PWA install prompt displayed');
         }
-      }, 2000);
+      }, 3000);
     };
 
     // Log when beforeinstallprompt fires
@@ -96,7 +98,7 @@ const PWAInstallPrompt = () => {
 
   return (
     <Sheet open={showPrompt} onOpenChange={setShowPrompt}>
-      <SheetContent side="bottom" className="rounded-t-xl sm:max-w-lg sm:rounded-xl mx-auto">
+      <SheetContent side="bottom" className="rounded-t-xl sm:max-w-lg sm:rounded-xl mx-auto p-4 sm:p-6">
         <SheetHeader className="relative">
           <Button 
             variant="ghost" 
@@ -118,19 +120,19 @@ const PWAInstallPrompt = () => {
             />
             Install Portfolio App
           </SheetTitle>
-          <SheetDescription>
-            Add this app to your home screen for quick access, offline support, and a better experience
+          <SheetDescription className="text-sm sm:text-base">
+            Add this app to your home screen for quick access, offline support, and a better mobile experience. You'll be able to use it even without an internet connection!
           </SheetDescription>
         </SheetHeader>
-        <div className="mt-6 flex justify-end space-x-4">
-          <Button variant="outline" onClick={handleDismiss}>
+        <div className="mt-6 flex flex-col sm:flex-row sm:justify-end gap-3 sm:space-x-4">
+          <Button variant="outline" onClick={handleDismiss} className="w-full sm:w-auto order-2 sm:order-1">
             Maybe Later
           </Button>
           <Button 
             onClick={handleInstall} 
-            className="relative overflow-hidden group bg-gradient-to-r from-primary to-accent"
+            className="relative overflow-hidden group bg-gradient-to-r from-primary to-accent w-full sm:w-auto order-1 sm:order-2"
           >
-            <span className="relative z-10 flex items-center">
+            <span className="relative z-10 flex items-center justify-center">
               Install Now
               <Download className="ml-2 h-4 w-4 group-hover:translate-y-[2px] transition-transform" />
             </span>

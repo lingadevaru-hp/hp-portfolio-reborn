@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'lingadevaru-portfolio-v2';
+const CACHE_NAME = 'lingadevaru-portfolio-v3';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -14,7 +14,14 @@ const urlsToCache = [
   '/index.css',
   '/main.js',
   '/assets/index-*.js', // Pattern to match Vite's output
-  '/assets/index-*.css' // Pattern to match Vite's output
+  '/assets/index-*.css', // Pattern to match Vite's output
+  // Add mobile-specific resources
+  '/icons/apple-splash-*.png', // iOS splash screens
+  // Add key content pages
+  '/projects',
+  '/skills',
+  '/yoga',
+  '/contact'
 ];
 
 // Install event - Cache-first for core assets
@@ -55,36 +62,83 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - Stale-while-revalidate strategy
+// Fetch event - Stale-while-revalidate strategy with mobile optimizations
 self.addEventListener('fetch', (event) => {
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) {
     return;
   }
+  
+  // Detect if request is coming from mobile device
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    (self.navigator && self.navigator.userAgent) || ''
+  );
 
   // For HTML pages, use network-first to ensure fresh content
+  // But prioritize cache-first on mobile for faster loading
   if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          // Cache a copy of the response
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-          return response;
-        })
-        .catch(() => {
-          // If network fails, try the cache
-          return caches.match(event.request).then(cachedResponse => {
+    if (isMobile) {
+      // Mobile strategy: Cache-first then network for faster initial load
+      event.respondWith(
+        caches.match(event.request)
+          .then(cachedResponse => {
+            // Return cached response immediately if available
             if (cachedResponse) {
+              // Fetch in the background to update cache
+              fetch(event.request)
+                .then(response => {
+                  if (response && response.status === 200) {
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then(cache => {
+                      cache.put(event.request, responseToCache);
+                    });
+                  }
+                })
+                .catch(() => console.log('Background fetch failed, but using cache'));
+              
               return cachedResponse;
             }
-            // Fallback to root if specific page not in cache
-            return caches.match('/');
-          });
-        })
-    );
+            
+            // If not in cache, get from network
+            return fetch(event.request)
+              .then(response => {
+                // Cache the response
+                const responseToCache = response.clone();
+                caches.open(CACHE_NAME).then(cache => {
+                  cache.put(event.request, responseToCache);
+                });
+                return response;
+              })
+              .catch(() => {
+                // Fallback to root if specific page not in cache
+                return caches.match('/');
+              });
+          })
+      );
+    } else {
+      // Desktop strategy: Network-first then cache
+      event.respondWith(
+        fetch(event.request)
+          .then(response => {
+            // Cache a copy of the response
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseToCache);
+            });
+            return response;
+          })
+          .catch(() => {
+            // If network fails, try the cache
+            return caches.match(event.request).then(cachedResponse => {
+              if (cachedResponse) {
+                return cachedResponse;
+              }
+              // Fallback to root if specific page not in cache
+              return caches.match('/');
+            });
+          })
+      );
+    }
     return;
   }
 
