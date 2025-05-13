@@ -1,57 +1,49 @@
-# Welcome to your Lovable project
+# Lingadevaru HP - Personal Portfolio
 
-## Project info
+## About
+Welcome to my personal portfolio website! This is where I showcase my work, skills, and professional journey. Visit my portfolio at [lingadevaru.in](https://lingadevaru.in)
 
-**URL**: https://lingadevaru.in 
+## Features
+- Modern and responsive design
+- Interactive UI components
+- Project showcase
+- Professional experience
+- Skills and expertise
+- Contact information
 
+## Tech Stack
+This portfolio is built with modern web technologies:
+- ⚡️ Vite - Next Generation Frontend Tooling
+- ⚛️ React - A JavaScript library for building user interfaces
+- 📝 TypeScript - For type-safe code
+- 🎨 Tailwind CSS - A utility-first CSS framework
+- 🎯 shadcn-ui - Beautifully designed components
 
-There are several ways of editing your application.
+## Getting Started
 
+### Prerequisites
+- Node.js (Install using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- npm (comes with Node.js)
 
-Simply visit the [Lovable Project]( lingadevaru.in 
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+### Local Development
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/linhadevaru-hp/hp-portfolio-reborn.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd hp-portfolio-reborn
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Contact
+Feel free to reach out to me:
+- Email: lingadevaruph@gmail.com
+- GitHub: [@linhadevaru-hp](https://github.com/linhadevaru-hp)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## License
+This project is open source and available under the MIT License.
