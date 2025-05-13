@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { fetchGithubProjects, getDefaultProjects } from "./projectsAPI";
 import { Repository } from "./types";
@@ -15,9 +14,10 @@ export const useProjects = () => {
         const data = await fetchGithubProjects();
         
         const { localPulseProject, academicMirrorProject } = getDefaultProjects();
-        
+        const customNames = [localPulseProject.name.toLowerCase(), academicMirrorProject.name.toLowerCase()];
+
         const filteredProjects = data
-          .filter((repo: Repository) => !repo.fork)
+          .filter((repo: Repository) => !repo.fork && !customNames.includes(repo.name.toLowerCase()))
           .slice(0, 4); // Reduced to 4 to make room for our custom projects
           
         setProjects([localPulseProject, academicMirrorProject, ...filteredProjects]);
