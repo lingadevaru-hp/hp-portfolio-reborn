@@ -186,12 +186,18 @@ const HeroSection = () => {
         </motion.div>
         
         <motion.div 
-          className="w-full h-[350px] sm:h-[400px] lg:h-[500px] relative"
+          className="w-full h-[350px] sm:h-[400px] lg:h-[500px] relative flex items-center justify-center p-4 overflow-hidden"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <img src="https://media1.tenor.com/m/Bpv9wTLKMskAAAAC/computer-nerds.gif" alt="Computer Nerds" className="w-full h-full object-contain mx-auto" />
+          <div className="w-[90%] h-[90%] max-w-md mx-auto rounded-lg overflow-hidden border border-accent/20 shadow-lg">
+            <img 
+              src="https://media1.tenor.com/m/Bpv9wTLKMskAAAAC/computer-nerds.gif" 
+              alt="Computer Nerds" 
+              className="w-full h-full object-cover" 
+            />
+          </div>
         </motion.div>
       </div>
     </section>
