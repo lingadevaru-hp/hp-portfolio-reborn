@@ -1,4 +1,3 @@
-
 import { Repository } from "./types";
 
 export const fetchGithubProjects = async (): Promise<Repository[]> => {
@@ -16,10 +15,10 @@ export const getDefaultProjects = () => {
   const localPulseProject: Repository = {
     id: 888888, // Unique ID
     name: "LocalPulse",
-    description: "A platform for local insights and community engagement. Discover what's happening in your area with real-time updates.",
+    description: "A web app that helps you find local events happening around you. It automatically detects your current location and shows you nearby events. You can see event prices, get directions through maps, check age requirements, and register for events right away. Plus, it has smart filters to help you find exactly what you're looking for.",
     html_url: "https://github.com/lingadevaru-hp/localpulse",
     homepage: "https://localpulse.lingadevaru.in",
-    topics: ["react", "community", "local-insights", "real-time"],
+    topics: ["react", "community", "local-events", "location-based", "event-discovery", "maps-integration"],
     fork: false
   };
   
