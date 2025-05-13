@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Github, Linkedin, Mail, Twitter, Instagram } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import Scene3D from "@/components/Scene3D";
 import { useInView } from "react-intersection-observer";
 import TypewriterText from "@/components/TypewriterText";
 import NameSwitcher from "@/components/NameSwitcher";
@@ -192,7 +191,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <Scene3D />
+          <img src="https://media1.tenor.com/m/Bpv9wTLKMskAAAAC/computer-nerds.gif" alt="Computer Nerds" className="w-full h-full object-contain mx-auto" />
         </motion.div>
       </div>
     </section>
