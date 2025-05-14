@@ -16,9 +16,9 @@ const MAILERSEND_API_KEY = process.env.MAILERSEND_API_KEY!;// This key must be i
 
 const personalDetails = {
     name: "Lingadevaru HP",
-    profession: "Computer Science student & Full Stack Developer",
-    location: "Tumkur, India",
-    availability: "Monday to Sunday, 12 AM to 12 PM IST",
+    profession: "Computer Science Major & Full Stack Developer",
+    location: "City, Country",
+    availability: "Weekdays, Business Hours",
     notAvailable: "Weekends & public holidays",
     interests: ["Linux", "Open Source", "Artificial Intelligence", "Yoga", "Mindfulness"],
     website: "lingadevaru.in",

@@ -120,8 +120,7 @@ const AboutSection = () => {
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Education & Philosophy</h3>
                   <div className="text-muted-foreground">
-                    <p className="font-medium mb-2">Bachelor of Computer Science</p>
-                    <p className="mb-4">Expected Graduation: 2024</p>
+                    <p className="font-medium mb-4">Major in Computer Science</p>
                     <p>I believe in the power of mindful technology — creating systems that enhance human capabilities while respecting our inherent need for balance and well-being.</p>
                   </div>
                 </CardContent>
