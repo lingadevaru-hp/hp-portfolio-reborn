@@ -1,12 +1,12 @@
 
 import YogaSection from "@/components/YogaSection";
-import Navbar from "@/components/Navbar";
+// Sidebar is now handled by Layout component
 import Footer from "@/components/Footer";
 
 const Yoga = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      {/* Sidebar is now handled by Layout component */}
       <main className="flex-grow">
         <YogaSection />
       </main>

@@ -1,5 +1,5 @@
 
-import Navbar from "@/components/Navbar";
+// Sidebar is now handled by Layout component
 import HeroSection from "@/components/HeroSection";
 import YogaSection from "@/components/YogaSection";
 import Footer from "@/components/Footer";
@@ -25,7 +25,7 @@ const Index = () => {
       transition={{ duration: 0.6 }}
       className="min-h-screen flex flex-col"
     >
-      <Navbar />
+      {/* Sidebar is now handled by Layout component */}
       <main className="flex-grow">
         <HeroSection />
         <YogaSection />

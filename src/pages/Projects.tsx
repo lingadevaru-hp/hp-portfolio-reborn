@@ -1,6 +1,6 @@
 
 import ProjectsSection from "@/components/ProjectsSection";
-import Navbar from "@/components/Navbar";
+// Sidebar is now handled by Layout component
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 
@@ -13,7 +13,7 @@ const Projects = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen flex flex-col"
     >
-      <Navbar />
+      {/* Sidebar is now handled by Layout component */}
       <main className="flex-grow">
         <ProjectsSection />
       </main>

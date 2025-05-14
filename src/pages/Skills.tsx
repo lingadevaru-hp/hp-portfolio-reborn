@@ -1,12 +1,12 @@
 
 import SkillsSection from "@/components/SkillsSection";
-import Navbar from "@/components/Navbar";
+// Sidebar is now handled by Layout component
 import Footer from "@/components/Footer";
 
 const Skills = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      {/* Sidebar is now handled by Layout component */}
       <main className="flex-grow">
         <SkillsSection />
       </main>
