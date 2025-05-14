@@ -43,13 +43,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     <div className="relative">
       <Link 
         to={to} 
-        className={`flex items-center gap-4 px-4 py-3 transition-all duration-200 cursor-pointer
-          ${active ? 'bg-white/20 text-primary' : 'hover:bg-white/10 text-white'}`}
+        className={`flex items-center justify-center md:justify-start gap-4 px-4 py-5 transition-all duration-200 cursor-pointer
+          ${active ? 'text-white' : 'text-white/60 hover:text-white'}`}
         onClick={handleClick}
       >
         <span className="text-xl">{icon}</span>
         {expanded && (
-          <span className="text-sm font-medium whitespace-nowrap">{label}</span>
+          <span className="text-sm font-medium whitespace-nowrap ml-3">{label}</span>
         )}
       </Link>
 
@@ -111,7 +111,7 @@ const Sidebar = () => {
       {/* Mobile Menu Button */}
       <button 
         onClick={() => setIsMobileOpen(true)}
-        className="fixed top-4 left-4 z-30 p-2 rounded-full bg-black/50 backdrop-blur-md text-white md:hidden"
+        className="fixed top-4 left-4 z-30 p-2 rounded-full bg-transparent text-white/80 md:hidden"
       >
         <Menu size={24} />
       </button>
@@ -119,7 +119,7 @@ const Sidebar = () => {
       {/* Overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
@@ -128,7 +128,7 @@ const Sidebar = () => {
       <div
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
-        className={`fixed left-0 top-0 h-screen bg-black/50 backdrop-blur-md border-r border-white/10 text-white z-50 transition-all duration-300 
+        className={`fixed left-0 top-0 h-screen bg-background/30 backdrop-blur-sm border-r-0 text-foreground z-50 transition-all duration-300 
           ${expanded ? "w-52" : "w-16"} 
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
@@ -140,15 +140,18 @@ const Sidebar = () => {
           <X size={24} />
         </button>
 
-        {/* Logo */}
-        <div className="flex items-center justify-center h-16 border-b border-white/10">
-          <span className="text-xl font-bold text-primary">
-            {expanded ? "Lingadevaru HP" : "L"}
-          </span>
+        {/* Star Logo like Hotstar */}
+        <div className="flex items-center justify-center h-16 py-8">
+          <div className="text-white/80 w-6 h-6">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
+                fill="currentColor" stroke="currentColor" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
 
         {/* Navigation Items */}
-        <div className="flex flex-col mt-4 space-y-1">
+        <div className="flex flex-col mt-8 space-y-2">
           {navItems.map((item) => (
             <SidebarItem 
               key={item.label}
