@@ -46,10 +46,10 @@ const SidebarItem: React.FC<SidebarItemProps> = memo(({
         to={to} 
         tabIndex={0}
         aria-label={label}
-        className={`flex items-center ${expanded ? 'justify-start' : 'justify-center'} w-full px-4 py-3 transition-all duration-300 ease-in-out cursor-pointer group
+        className={`flex items-center ${expanded ? 'justify-start' : 'justify-center'} w-full px-4 py-3 transition-opacity duration-300 ease-in-out cursor-pointer group
           ${active 
             ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white' 
-            : 'text-white/80 hover:text-white hover:bg-[#8A6BFF]/20'}`}
+            : 'text-white/70 hover:text-white'}`}
         onClick={handleClick}
       >
         <span className={`transition-opacity duration-300 ease-in-out ${active ? 'opacity-100' : 'opacity-70'} group-hover:opacity-100`}>
@@ -139,7 +139,7 @@ const Sidebar = () => {
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         style={{ willChange: 'width, transform, background' }}
-        className={`fixed left-0 top-0 h-screen flex flex-col justify-center z-50 transition-all duration-300 ease-in-out
+        className={`fixed left-0 top-0 h-screen flex items-center justify-center z-50 transition-all duration-300 ease-in-out
           ${expanded ? "w-[200px] bg-gradient-to-r from-[#141519] to-[rgba(20,21,25,0.7)] backdrop-blur-[5px] border-r border-[rgba(255,255,255,0.1)]" : "w-[60px] bg-transparent"} 
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
@@ -156,7 +156,7 @@ const Sidebar = () => {
         {/* Logo removed */}
 
         {/* Navigation Items - Compact and Centered */}
-        <div className="flex flex-col w-full h-auto max-h-[70vh] py-4">
+        <div className="flex flex-col w-full h-auto py-4 space-y-1">
           {navItems.map((item) => (
             <SidebarItem 
               key={item.label}
