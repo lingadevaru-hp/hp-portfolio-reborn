@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Home,
@@ -21,7 +21,8 @@ interface SidebarItemProps {
   onClick?: () => void;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ 
+// Using memo to prevent unnecessary re-renders
+const SidebarItem: React.FC<SidebarItemProps> = memo(({ 
   icon, 
   label, 
   to, 
@@ -43,25 +44,28 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     <div className="relative w-full">
       <Link 
         to={to} 
+        tabIndex={0}
+        aria-label={label}
         className={`flex items-center ${expanded ? 'justify-start' : 'justify-center'} w-full px-4 py-5 transition-all duration-300 ease-in-out cursor-pointer group
           ${active 
-            ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white' 
-            : 'text-white hover:bg-[#8A6BFF]'}`}
+            ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white shadow-[0_0_10px_rgba(107,72,255,0.5)]' 
+            : 'text-white hover:bg-[#8A6BFF]'}
+          ${!expanded ? 'rounded-r-lg shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:shadow-[0_0_12px_rgba(255,255,255,0.3)]' : ''}`}
         onClick={handleClick}
       >
-        <span className={`transition-transform duration-300 ease-in-out ${active ? 'scale-[1.2]' : ''} group-hover:scale-[1.1]`}>
+        <span className={`transition-all duration-300 ease-in-out ${active ? 'scale-[1.2]' : ''} group-hover:scale-[1.05] group-hover:rotate-3 animate-subtle-bounce will-change-transform`}>
           {icon}
         </span>
         
-        <span className={`text-base font-medium whitespace-nowrap ml-3 ${expanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute'} transition-all duration-300 ease-in-out`}>
+        <span className={`text-base font-medium whitespace-nowrap ml-3 ${expanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute'} transition-all duration-300 ease-in-out delay-100`}>
           {label}
         </span>
       </Link>
 
       {expanded && submenu && isSubmenuOpen && (
-        <div className="ml-10 space-y-2 py-2 text-sm text-white/80">
+        <div className="ml-10 space-y-2 py-2 text-sm text-white/80" aria-expanded={isSubmenuOpen}>
           {submenu.map((item) => (
-            <div key={item} className="hover:text-white cursor-pointer">
+            <div key={item} className="hover:text-white hover:underline cursor-pointer transition-all duration-200">
               {item}
             </div>
           ))}
@@ -69,7 +73,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       )}
     </div>
   );
-};
+});
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(false);
@@ -116,7 +120,9 @@ const Sidebar = () => {
       {/* Mobile Menu Button */}
       <button 
         onClick={() => setIsMobileOpen(true)}
-        className="fixed top-4 left-4 z-30 p-2 rounded-full bg-transparent text-white/80 md:hidden"
+        className="fixed top-4 left-4 z-30 p-2 rounded-full bg-transparent text-white/80 md:hidden shadow-[0_0_8px_rgba(255,255,255,0.2)] hover:shadow-[0_0_12px_rgba(255,255,255,0.3)] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50"
+        aria-label="Open menu"
+        tabIndex={0}
       >
         <Menu size={24} />
       </button>
@@ -124,7 +130,7 @@ const Sidebar = () => {
       {/* Overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-gradient-to-r from-[#1A1D29] to-[rgba(26,29,41,0.4)] backdrop-blur-[5px] z-40 md:hidden opacity-100 transition-opacity duration-300"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
@@ -133,14 +139,17 @@ const Sidebar = () => {
       <div
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
-        className={`fixed left-0 top-0 h-screen bg-gradient-to-r from-[#1A1D29] to-[rgba(26,29,41,0.8)] flex flex-col justify-center z-50 transition-all duration-300 ease-in-out
-          ${expanded ? "w-[200px]" : "w-[60px]"} 
+        style={{ willChange: 'width, transform, background' }}
+        className={`fixed left-0 top-0 h-screen flex flex-col justify-center z-50 transition-all duration-300 ease-in-out
+          ${expanded ? "w-[200px] bg-gradient-to-r from-[#1A1D29] to-[rgba(26,29,41,0.4)] backdrop-blur-[5px] border-r border-[rgba(255,255,255,0.1)]" : "w-[60px] bg-transparent"} 
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* Close button (mobile only) */}
         <button 
           onClick={() => setIsMobileOpen(false)}
-          className="absolute top-4 right-4 text-white md:hidden"
+          className="absolute top-4 right-4 text-white md:hidden focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full p-1"
+          aria-label="Close menu"
+          tabIndex={0}
         >
           <X size={24} />
         </button>

@@ -111,6 +111,10 @@ export default {
 				rotate: {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
+				},
+				'subtle-bounce': {
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.05)' }
 				}
 			},
 			animation: {
@@ -126,7 +130,8 @@ export default {
 				zoomIn: 'zoomIn 0.5s ease-out forwards',
 				float: 'float 3s ease-in-out infinite',
 				pulse: 'pulse 3s ease-in-out infinite',
-				spin: 'rotate 1s linear infinite'
+				spin: 'rotate 1s linear infinite',
+				'subtle-bounce': 'subtle-bounce 2s ease-in-out infinite'
 			},
 			transitionProperty: {
 				'height': 'height',
