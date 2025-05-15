@@ -12,8 +12,7 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import Yoga from "./pages/Yoga";
 import NotFound from "./pages/NotFound";
-import PWAInstallPrompt from "./components/PWAInstallPrompt";
-import PWAInstallBanner from "./components/PWAInstallBanner";
+// PWA components removed
 
 const queryClient = new QueryClient();
 
@@ -23,8 +22,6 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <PWAInstallBanner />
-        <PWAInstallPrompt />
         <BrowserRouter>
           <Layout>
             <AnimatePresence mode="wait">
