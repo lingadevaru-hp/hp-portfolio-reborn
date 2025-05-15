@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <main className="flex-1 ml-16 md:ml-16 transition-all duration-300 w-full">
+      <main className="flex-1 ml-[60px] transition-all duration-300 w-full">
         {children}
       </main>
     </div>

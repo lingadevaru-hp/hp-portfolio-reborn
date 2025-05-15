@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, Instagram, Mail, LucideIcon } from "lucide-react";
+import { Github, Twitter, Instagram, Mail, LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface SocialLink {
@@ -14,7 +14,6 @@ const Footer = () => {
   
   const socialLinks: SocialLink[] = [
     { icon: Github, href: "https://github.com/lingadevaru-hp", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com/in/lingadevaruhp", label: "LinkedIn" },
     { icon: Twitter, href: "https://twitter.com/lingadevaruhp", label: "Twitter" },
     { icon: Instagram, href: "https://instagram.com/lingadevaruhp", label: "Instagram" },
     { icon: Mail, href: "mailto:contact@lingadevaru.in", label: "Email" },

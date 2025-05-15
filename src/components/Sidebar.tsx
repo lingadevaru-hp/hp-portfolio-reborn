@@ -40,17 +40,22 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Link 
         to={to} 
-        className={`flex items-center justify-center md:justify-start gap-4 px-4 py-5 transition-all duration-200 cursor-pointer
-          ${active ? 'text-white' : 'text-white/60 hover:text-white'}`}
+        className={`flex items-center ${expanded ? 'justify-start' : 'justify-center'} w-full px-4 py-5 transition-all duration-300 ease-in-out cursor-pointer group
+          ${active 
+            ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white' 
+            : 'text-white hover:bg-[#8A6BFF]'}`}
         onClick={handleClick}
       >
-        <span className="text-xl">{icon}</span>
-        {expanded && (
-          <span className="text-sm font-medium whitespace-nowrap ml-3">{label}</span>
-        )}
+        <span className={`transition-transform duration-300 ease-in-out ${active ? 'scale-[1.2]' : ''} group-hover:scale-[1.1]`}>
+          {icon}
+        </span>
+        
+        <span className={`text-base font-medium whitespace-nowrap ml-3 ${expanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute'} transition-all duration-300 ease-in-out`}>
+          {label}
+        </span>
       </Link>
 
       {expanded && submenu && isSubmenuOpen && (
@@ -93,17 +98,17 @@ const Sidebar = () => {
 
   // Define navigation items
   const navItems = [
-    { icon: <Home size={20} />, label: "Home", to: "/" },
-    { icon: <User size={20} />, label: "About", to: "/about" },
-    { icon: <Code size={20} />, label: "Skills", to: "/skills" },
+    { icon: <Home size={24} />, label: "Home", to: "/" },
+    { icon: <User size={24} />, label: "About", to: "/about" },
+    { icon: <Code size={24} />, label: "Skills", to: "/skills" },
     { 
-      icon: <Briefcase size={20} />, 
+      icon: <Briefcase size={24} />, 
       label: "Projects", 
       to: "/projects",
       submenu: ["Web", "AI/ML", "Linux Tools"]
     },
-    { icon: <Heart size={20} />, label: "Yoga", to: "/yoga" },
-    { icon: <Mail size={20} />, label: "Contact", to: "/contact" }
+    { icon: <Heart size={24} />, label: "Yoga", to: "/yoga" },
+    { icon: <Mail size={24} />, label: "Contact", to: "/contact" }
   ];
 
   return (
@@ -124,12 +129,12 @@ const Sidebar = () => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar - Disney+ Style */}
       <div
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
-        className={`fixed left-0 top-0 h-screen bg-background/30 backdrop-blur-sm border-r-0 text-foreground z-50 transition-all duration-300 
-          ${expanded ? "w-52" : "w-16"} 
+        className={`fixed left-0 top-0 h-screen bg-gradient-to-r from-[#1A1D29] to-[rgba(26,29,41,0.8)] flex flex-col justify-center z-50 transition-all duration-300 ease-in-out
+          ${expanded ? "w-[200px]" : "w-[60px]"} 
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* Close button (mobile only) */}
@@ -141,7 +146,7 @@ const Sidebar = () => {
         </button>
 
         {/* Star Logo like Hotstar */}
-        <div className="flex items-center justify-center h-16 py-8">
+        <div className="absolute top-8 left-0 right-0 flex items-center justify-center">
           <div className="text-white/80 w-6 h-6">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
@@ -151,7 +156,7 @@ const Sidebar = () => {
         </div>
 
         {/* Navigation Items */}
-        <div className="flex flex-col mt-8 space-y-2">
+        <div className="flex flex-col w-full">
           {navItems.map((item) => (
             <SidebarItem 
               key={item.label}
