@@ -46,14 +46,13 @@ const SidebarItem: React.FC<SidebarItemProps> = memo(({
         to={to} 
         tabIndex={0}
         aria-label={label}
-        className={`flex items-center ${expanded ? 'justify-start' : 'justify-center'} w-full px-4 py-5 transition-all duration-300 ease-in-out cursor-pointer group
+        className={`flex items-center ${expanded ? 'justify-start' : 'justify-center'} w-full px-4 py-3 transition-all duration-300 ease-in-out cursor-pointer group
           ${active 
-            ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white shadow-[0_0_10px_rgba(107,72,255,0.5)]' 
-            : 'text-white hover:bg-[#8A6BFF]'}
-          ${!expanded ? 'rounded-r-lg shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:shadow-[0_0_12px_rgba(255,255,255,0.3)]' : ''}`}
+            ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white' 
+            : 'text-white/80 hover:text-white hover:bg-[#8A6BFF]/20'}`}
         onClick={handleClick}
       >
-        <span className={`transition-all duration-300 ease-in-out ${active ? 'scale-[1.2]' : ''} group-hover:scale-[1.05] group-hover:rotate-3 animate-subtle-bounce will-change-transform`}>
+        <span className={`transition-opacity duration-300 ease-in-out ${active ? 'opacity-100' : 'opacity-70'} group-hover:opacity-100`}>
           {icon}
         </span>
         
@@ -130,7 +129,7 @@ const Sidebar = () => {
       {/* Overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-gradient-to-r from-[#1A1D29] to-[rgba(26,29,41,0.4)] backdrop-blur-[5px] z-40 md:hidden opacity-100 transition-opacity duration-300"
+          className="fixed inset-0 bg-gradient-to-r from-[#141519] to-[rgba(20,21,25,0.7)] backdrop-blur-[5px] z-40 md:hidden opacity-100 transition-opacity duration-300"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
@@ -141,7 +140,7 @@ const Sidebar = () => {
         onMouseLeave={() => setExpanded(false)}
         style={{ willChange: 'width, transform, background' }}
         className={`fixed left-0 top-0 h-screen flex flex-col justify-center z-50 transition-all duration-300 ease-in-out
-          ${expanded ? "w-[200px] bg-gradient-to-r from-[#1A1D29] to-[rgba(26,29,41,0.4)] backdrop-blur-[5px] border-r border-[rgba(255,255,255,0.1)]" : "w-[60px] bg-transparent"} 
+          ${expanded ? "w-[200px] bg-gradient-to-r from-[#141519] to-[rgba(20,21,25,0.7)] backdrop-blur-[5px] border-r border-[rgba(255,255,255,0.1)]" : "w-[60px] bg-transparent"} 
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* Close button (mobile only) */}
@@ -156,8 +155,8 @@ const Sidebar = () => {
 
         {/* Logo removed */}
 
-        {/* Navigation Items */}
-        <div className="flex flex-col w-full">
+        {/* Navigation Items - Compact and Centered */}
+        <div className="flex flex-col w-full h-auto max-h-[70vh] py-4">
           {navItems.map((item) => (
             <SidebarItem 
               key={item.label}
