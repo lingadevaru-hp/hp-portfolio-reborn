@@ -1,81 +1,66 @@
-
 import { motion } from "framer-motion";
-import { Github, Link, ExternalLink } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Github, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Repository } from "./types";
 
 interface ProjectCardProps {
   project: Repository;
-  isFeatured?: boolean;
-  variants: any;
 }
 
-const ProjectCard = ({ project, isFeatured = false, variants }: ProjectCardProps) => {
+const ProjectCard = ({ project }: ProjectCardProps) => {
+  // Card animation variant (can be simplified or made consistent)
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
-    <motion.div 
-      variants={variants}
-      whileHover={{ y: -10, transition: { type: "spring", stiffness: 300 } }}
-      className={isFeatured ? "md:col-span-2 lg:col-span-3" : ""}
+    <motion.div
+      variants={cardVariants}
+      className="h-full flex flex-col bg-white/5 hover:bg-white/10 transition-colors duration-300 rounded-lg shadow-lg overflow-hidden border border-white/10"
+      // Removed whileHover for a cleaner look, relying on bg change
     >
-      <Card 
-        className={`h-full flex flex-col overflow-hidden ${
-          isFeatured 
-            ? "bg-gradient-to-br from-card/90 to-card/60 border-gradient shadow-lg shadow-primary/10" 
-            : "bg-card/50 border-gradient/50"
-        }`}
-      >
-        <CardHeader className={isFeatured ? "pb-2" : ""}>
-          <CardTitle className={`truncate ${isFeatured ? "text-2xl" : "text-lg"}`}>
-            {project.name}
-          </CardTitle>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {project.topics && project.topics.slice(0, 3).map((topic) => (
-              <Badge key={topic} variant="secondary" className="text-xs">
+      <div className="p-5 sm:p-6 flex-grow flex flex-col">
+        <h3 className="text-xl lg:text-2xl font-semibold text-white mb-2 truncate">
+          {project.name}
+        </h3>
+        <p className="text-sm text-white/70 mb-4 line-clamp-3 flex-grow">
+          {project.description || "No description available."}
+        </p>
+        {project.topics && project.topics.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.topics.slice(0, 4).map((topic) => (
+              <Badge
+                key={topic}
+                variant="secondary" // This uses theme colors, ensure it looks good on dark bg
+                className="bg-white/10 text-white/80 text-xs px-2 py-1"
+              >
                 {topic}
               </Badge>
             ))}
           </div>
-        </CardHeader>
-        <CardContent className="flex-grow">
-          <CardDescription className={`text-muted-foreground ${isFeatured ? "text-base line-clamp-4" : "line-clamp-3"}`}>
-            {project.description || "No description available"}
-          </CardDescription>
-        </CardContent>
-        <CardFooter className="flex justify-between pt-2 border-t border-border/30">
-          <Button variant="ghost" size="sm" asChild>
-            <a href={project.html_url} target="_blank" rel="noopener noreferrer" className="group">
-              <Github className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-              Code
+        )}
+      </div>
+      <div className="p-5 sm:p-6 border-t border-white/10 flex items-center justify-between bg-black/10">
+        <Button variant="ghost" size="sm" asChild className="text-white/80 hover:text-white hover:bg-white/5 group">
+          <a href={project.html_url} target="_blank" rel="noopener noreferrer" aria-label={`View source code for ${project.name} on GitHub`}>
+            <Github className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+            Code
+          </a>
+        </Button>
+        {project.homepage && (
+          <Button variant="outline" size="sm" asChild className="text-white/80 hover:text-white bg-transparent hover:bg-white/10 border-white/30 hover:border-white/50 group">
+            <a href={project.homepage} target="_blank" rel="noopener noreferrer" aria-label={`Visit live demo for ${project.name}`}>
+              Demo
+              <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </a>
           </Button>
-          {project.homepage && (
-            <Button 
-              variant={isFeatured ? "default" : "ghost"} 
-              size={isFeatured ? "default" : "sm"}
-              asChild
-              className={isFeatured ? "hover:shadow-md hover:shadow-primary/20" : ""}
-            >
-              <a href={project.homepage} target="_blank" rel="noopener noreferrer" className="group">
-                {isFeatured ? (
-                  <>
-                    Visit Site
-                    <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </>
-                ) : (
-                  <>
-                    <Link className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-                    Demo
-                  </>
-                )}
-              </a>
-            </Button>
-          )}
-        </CardFooter>
-      </Card>
+        )}
+      </div>
     </motion.div>
   );
 };
 
 export default ProjectCard;
+

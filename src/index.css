@@ -1,41 +1,43 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    /* Updated to reflect Hotstar-like theme */
+    --background: 222 47% 8%; /* #141519 approx in HSL */
+    --foreground: 0 0% 100%; /* White */
 
-    --card: 222 47% 13%;
-    --card-foreground: 210 40% 98%;
+    --card: 222 47% 10%; /* Slightly lighter than background for cards if needed */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 0 0% 100%;
 
+    /* Primary can be kept for accents if they fit the Hotstar theme, or updated */
+    /* User wants to keep existing active state, so primary might be relevant */
     --primary: 252 87% 63%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 33% 17%;
+    --secondary: 217 33% 17%; /* Review if needed, or use shades of #141519 */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 70%;
+    --muted-foreground: 215 20% 70%; /* Light gray for muted text */
 
-    --accent: 194 80% 64%;
+    --accent: 194 80% 64%; /* Review if needed */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 33% 20%;
+    --border: 217 33% 25%; /* Slightly lighter border for dark theme */
     --input: 217 33% 20%;
-    --ring: 252 87% 63%;
+    --ring: 252 87% 63%; /* Ring color for focus states */
 
     --radius: 0.5rem;
 
-    /* Cursor variables */
+    /* Cursor variables - can be kept or simplified if not fitting Hotstar */
     --cursor-color: rgba(155, 135, 245, 0.5);
     --cursor-size: 20px;
   }
@@ -50,15 +52,18 @@
     scroll-behavior: smooth;
     scroll-padding-top: 4rem;
     -webkit-tap-highlight-color: transparent;
+    font-family: "Inter", sans-serif; /* Set Inter as default font */
   }
 
   body {
-    @apply bg-background text-foreground antialiased overflow-x-hidden;
+    /* Apply Hotstar dark background and white text */
+    @apply bg-hotstar-dark text-white antialiased overflow-x-hidden;
     overscroll-behavior: none;
     touch-action: manipulation;
   }
 
-  /* Custom cursor */
+  /* Custom cursor - Review if this fits Hotstar's minimalist style */
+  /* For now, we keep it as it's an existing feature */
   .custom-cursor {
     position: fixed;
     width: var(--cursor-size);
@@ -86,7 +91,7 @@
     border: 2px solid var(--cursor-color);
   }
 
-  /* Mobile optimizations */
+  /* Mobile optimizations - Keep existing, review if conflicting */
   @media (max-width: 640px) {
     body {
       scroll-snap-type: y proximity;
@@ -94,12 +99,13 @@
     
     section {
       scroll-snap-align: start;
-      min-height: 100vh;
+      /* min-height: 100vh; Re-evaluate if this is needed with new design */
     }
   }
 }
 
 .gradient-text {
+  /* This might need adjustment if primary/accent colors change significantly */
   @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
 }
 
@@ -107,6 +113,7 @@
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24;
 }
 
+/* Border gradients might need to use new accent colors if primary/accent change */
 .border-gradient {
   @apply relative before:absolute before:inset-0 before:-z-10 before:p-[1px] before:rounded-lg before:bg-gradient-to-r before:from-primary/50 before:to-accent/50;
 }
@@ -116,19 +123,23 @@
 }
 
 .skill-icon {
+  /* Update skill icon background if secondary color changes, or use a neutral dark shade */
   @apply p-3 bg-secondary rounded-lg shadow-md hover:shadow-accent/20 hover:scale-105 transition-all duration-300;
 }
 
-/* Glass morphism */
+/* Glass morphism - update with Hotstar colors */
 .glass {
-  @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
+  /* General glass effect, may not be used if specific Hotstar sidebar style is preferred */
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg;
 }
 
 .dark-glass {
-  @apply bg-black/50 backdrop-blur-lg border border-white/5 shadow-xl;
+  /* This is closer to the sidebar's expanded state */
+  @apply bg-hotstar-gradient-end backdrop-blur-sm border border-white/5 shadow-lg; 
+  /* backdrop-blur-[5px] can be used if 'sm' is not 5px */
 }
 
-/* 3D elements */
+/* 3D elements - Review if this fits Hotstar's minimalist style */
 .card-3d {
   @apply transition-all duration-300 hover:shadow-xl perspective-1000 transform-style-3d;
 }
@@ -137,7 +148,7 @@
   @apply transform rotate-y-5 rotate-x-5;
 }
 
-/* Text truncation for mobile */
+/* Text truncation - Keep as utility */
 .line-clamp-1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -159,7 +170,7 @@
   overflow: hidden;
 }
 
-/* Animations */
+/* Animations - Keep existing, review if conflicting */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
@@ -204,7 +215,7 @@
   animation-delay: 500ms;
 }
 
-/* Hover animations */
+/* Hover animations - Keep existing, review if conflicting */
 .hover-lift {
   @apply transition-all duration-300;
 }
@@ -213,7 +224,7 @@
   @apply -translate-y-1 shadow-lg;
 }
 
-/* Utility classes */
+/* Utility classes - Keep existing */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -230,12 +241,12 @@
   transform: rotateX(5deg);
 }
 
-/* Loading spinner */
+/* Loading spinner - Update to match Hotstar style if needed */
 .spinner {
   width: 40px;
   height: 40px;
   border: 4px solid rgba(255, 255, 255, 0.1);
-  border-left-color: hsl(var(--primary));
+  border-left-color: hsl(var(--primary)); /* Or a Hotstar accent */
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -246,13 +257,15 @@
   }
 }
 
-/* Mobile menu enhancements */
+/* Mobile menu enhancements - Will be adapted by Sidebar.tsx changes */
 .mobile-menu-overlay {
-  @apply fixed inset-0 z-40 bg-black/60 backdrop-blur-sm;
+  /* This will be styled by the sidebar's expanded state: gradient + blur */
+  @apply fixed inset-0 z-40;
 }
 
 .mobile-menu {
-  @apply fixed inset-y-0 right-0 w-full max-w-[300px] z-50 bg-background/90 backdrop-blur-md p-6 shadow-2xl;
+  /* Base structure, specific styling will come from Sidebar.tsx */
+  @apply fixed inset-y-0 right-0 w-full max-w-[200px] z-50 p-0 shadow-2xl; /* Width matches expanded sidebar */
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
 }
@@ -261,9 +274,9 @@
   transform: translateX(0);
 }
 
-/* Mobile bottom sheet */
+/* Mobile bottom sheet - Review if used and if it fits Hotstar style */
 .bottom-sheet {
-  @apply fixed inset-x-0 bottom-0 z-50 bg-background rounded-t-xl shadow-2xl;
+  @apply fixed inset-x-0 bottom-0 z-50 bg-hotstar-dark rounded-t-xl shadow-2xl; /* Use Hotstar background */
   transform: translateY(100%);
   transition: transform 0.3s cubic-bezier(0.17, 0.67, 0.39, 1.01);
 }
@@ -271,3 +284,7 @@
 .bottom-sheet.open {
   transform: translateY(0);
 }
+
+/* Ensure Inter font is loaded if not already via a font provider or HTML link */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
