@@ -54,8 +54,11 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         // Hotstar specific colors
-        "hotstar-dark": "#141519",
-        "hotstar-gradient-start": "#141519",
+        "hotstar-dark": "#141519", // Main page background
+        "hotstar-sidebar-dark": "#191e25", // New solid dark grey for expanded sidebar
+        "hotstar-active-border": "#FFFFFF", // White border for active sidebar item
+        // Previous gradient colors, can be removed if not used elsewhere
+        "hotstar-gradient-start": "#141519", 
         "hotstar-gradient-end": "rgba(20,21,25,0.7)",
       },
       borderRadius: {

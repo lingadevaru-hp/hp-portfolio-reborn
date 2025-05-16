@@ -8,95 +8,123 @@ import {
   Heart,
   Mail,
   Menu,
-  X
+  X,
+  ChevronDown, // For submenu indicator
+  ChevronUp // For submenu indicator
 } from "lucide-react";
 
 interface SidebarItemProps {
   icon: React.ReactNode;
   label: string;
   to: string;
-  isEffectivelyExpanded: boolean; // Renamed from 'expanded'
+  isEffectivelyExpanded: boolean;
   active: boolean;
-  submenu?: string[];
+  isSubmenuItem?: boolean;
+  submenu?: { label: string; to: string }[]; // Updated submenu structure
   onClick?: () => void;
+  isSubmenuOpen?: boolean;
+  toggleSubmenu?: () => void;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = memo(({
   icon,
   label,
   to,
-  isEffectivelyExpanded, // Use this prop
+  isEffectivelyExpanded,
   active,
+  isSubmenuItem = false,
   submenu,
-  onClick
+  onClick,
+  isSubmenuOpen,
+  toggleSubmenu
 }) => {
-  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  const baseClasses = `flex items-center w-full py-3 transition-all duration-200 ease-in-out cursor-pointer group relative`;
+  const expandedPadding = isSubmenuItem ? "pl-10 pr-4" : "pl-4 pr-4"; // Indent submenu items
+  const collapsedPadding = "justify-center px-4";
 
-  const handleClick = () => {
-    if (submenu && submenu.length > 0) {
-      setIsSubmenuOpen(!isSubmenuOpen);
+  const activeClasses = active
+    ? "text-white font-semibold before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-6 before:w-0.5 before:bg-hotstar-active-border before:rounded-r-sm"
+    : "text-neutral-400 hover:text-white hover:bg-white/5";
+
+  const commonIconTextClasses = `transition-opacity duration-200 ease-in-out ${active ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'}`;
+
+  const handleItemClick = () => {
+    if (submenu && submenu.length > 0 && toggleSubmenu) {
+      toggleSubmenu(); // Toggle submenu if it exists
     }
-    if (onClick) onClick();
+    if (onClick) onClick(); // For mobile menu close
   };
 
   return (
-    <div className="relative w-full">
+    <>
       <Link
         to={to}
         tabIndex={0}
         aria-label={label}
-        className={`flex items-center ${isEffectivelyExpanded ? 'justify-start' : 'justify-center'} w-full px-4 py-3 transition-all duration-300 ease-in-out cursor-pointer group
-          ${active
-            ? 'bg-gradient-to-r from-[#6B48FF] to-[#3B1F9E] text-white' // User wants to keep existing active state
-            : 'text-white hover:text-white'}`}
-        onClick={handleClick}
+        className={`${baseClasses} ${isEffectivelyExpanded ? expandedPadding : collapsedPadding} ${activeClasses}`}
+        onClick={handleItemClick}
       >
-        {/* Icon: Opacity 80% to 100% on hover (if not active) */}
-        <span className={`transition-opacity duration-300 ease-in-out ${active ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'}`}>
+        <span className={`${commonIconTextClasses} ${isEffectivelyExpanded ? 'mr-3' : ''}`}>
           {icon}
         </span>
-        
-        {/* Text Label */}
-        <span className={`text-base font-medium whitespace-nowrap ml-3 ${isEffectivelyExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute pointer-events-none'} transition-all duration-300 ease-in-out delay-100`}>
+        <span
+          className={`text-sm whitespace-nowrap ${commonIconTextClasses} ${isEffectivelyExpanded ? "opacity-100" : "opacity-0 absolute pointer-events-none"} transition-all duration-200 ease-in-out delay-75`}
+        >
           {label}
         </span>
+        {isEffectivelyExpanded && submenu && submenu.length > 0 && (
+          <span className="ml-auto transition-transform duration-200">
+            {isSubmenuOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </span>
+        )}
       </Link>
-
       {isEffectivelyExpanded && submenu && isSubmenuOpen && (
-        <div className="ml-10 space-y-2 py-2 text-sm text-white/80" aria-expanded={isSubmenuOpen}>
-          {submenu.map((item) => (
-            <div key={item} className="hover:text-white hover:underline cursor-pointer transition-all duration-200">
-              {item}
-            </div>
+        <div className="pl-4 pb-1 pt-0 text-neutral-400" aria-expanded={isSubmenuOpen}>
+          {submenu.map((subItem) => (
+            <SidebarItem
+              key={subItem.label}
+              icon={<span className="w-6 h-6 flex items-center justify-center"><span className="w-1.5 h-1.5 bg-neutral-500 rounded-full group-hover:bg-white transition-colors"></span></span>} // Placeholder or specific icons for subitems
+              label={subItem.label}
+              to={subItem.to} // Assuming submenus also navigate
+              isEffectivelyExpanded={isEffectivelyExpanded}
+              active={location.pathname === subItem.to} // Active state for subitems
+              isSubmenuItem={true}
+              onClick={onClick} // Pass mobile close handler
+            />
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 });
 
 const Sidebar = () => {
   const [desktopHoverExpanded, setDesktopHoverExpanded] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const location = useLocation();
 
   const isEffectivelyExpanded = desktopHoverExpanded || isMobileOpen;
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsMobileOpen(false);
-      }
+      if (event.key === 'Escape') setIsMobileOpen(false);
     };
     window.addEventListener('keydown', handleEsc);
-    return () => {
-      window.removeEventListener('keydown', handleEsc);
-    };
+    return () => window.removeEventListener('keydown', handleEsc);
   }, []);
 
   useEffect(() => {
-    setIsMobileOpen(false); // Close mobile sidebar on route change
-  }, [location]);
+    if (!isEffectivelyExpanded) {
+      setOpenSubmenu(null); // Close submenu when sidebar collapses
+    }
+  }, [isEffectivelyExpanded]);
+
+  const handleMobileMenuClose = () => setIsMobileOpen(false);
+
+  const toggleSubmenu = (label: string) => {
+    setOpenSubmenu(openSubmenu === label ? null : label);
+  };
 
   const navItems = [
     { icon: <Home size={24} />, label: "Home", to: "/" },
@@ -105,8 +133,12 @@ const Sidebar = () => {
     {
       icon: <Briefcase size={24} />,
       label: "Projects",
-      to: "/projects",
-      submenu: ["Web", "AI/ML", "Linux Tools"] // Existing submenu
+      to: "/projects", // Main projects link
+      submenu: [
+        { label: "Web", to: "/projects/web" }, 
+        { label: "AI/ML", to: "/projects/ai-ml" }, 
+        { label: "Linux Tools", to: "/projects/linux-tools" }
+      ]
     },
     { icon: <Heart size={24} />, label: "Yoga", to: "/yoga" },
     { icon: <Mail size={24} />, label: "Contact", to: "/contact" }
@@ -114,52 +146,58 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Menu Button (Hamburger) */}
       <button
         onClick={() => setIsMobileOpen(true)}
-        className="fixed top-4 left-4 z-[60] p-2 rounded-full bg-transparent text-white/80 md:hidden shadow-[0_0_8px_rgba(255,255,255,0.2)] hover:shadow-[0_0_12px_rgba(255,255,255,0.3)] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50"
+        className="fixed top-4 left-4 z-[60] p-2 rounded-md bg-black/30 text-white/80 md:hidden shadow-lg hover:bg-black/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50"
         aria-label="Open menu"
-        tabIndex={0}
       >
         <Menu size={24} />
       </button>
 
-      {/* Overlay for Mobile Menu - uses Hotstar gradient and blur */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-gradient-to-r from-hotstar-gradient-start to-hotstar-gradient-end backdrop-blur-[5px] z-50 md:hidden opacity-100 transition-opacity duration-300"
-          onClick={() => setIsMobileOpen(false)}
+          className="fixed inset-0 bg-black/60 z-50 md:hidden transition-opacity duration-300"
+          onClick={handleMobileMenuClose}
           aria-hidden="true"
         />
       )}
 
-      {/* Sidebar Container */}
       <div
         onMouseEnter={() => setDesktopHoverExpanded(true)}
         onMouseLeave={() => setDesktopHoverExpanded(false)}
-        style={{ willChange: 'width, background' }} // Removed transform as it's handled by translate classes
-        className={`fixed left-0 top-0 h-screen flex items-center justify-center z-[55] transition-all duration-300 ease-in-out
+        className={`fixed left-0 top-0 h-screen flex flex-col items-center justify-center z-[55] transition-all duration-300 ease-in-out shadow-2xl
           ${isEffectivelyExpanded
-            ? "w-[200px] bg-gradient-to-r from-hotstar-gradient-start to-hotstar-gradient-end backdrop-blur-[5px] border-r border-white/10"
+            ? "w-[220px] bg-hotstar-sidebar-dark" // Updated width and solid background
             : "w-[60px] bg-transparent"}
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
         role="navigation"
         aria-label="Main navigation"
       >
-        {/* Close Button (Mobile Only) - Placed inside the sidebar */}
         {isMobileOpen && (
           <button
-            onClick={() => setIsMobileOpen(false)}
-            className="absolute top-4 right-4 text-white focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full p-1 md:hidden z-[60]"
+            onClick={handleMobileMenuClose}
+            className="absolute top-3 right-3 text-neutral-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/50 rounded-full p-1 md:hidden z-[60]"
             aria-label="Close menu"
-            tabIndex={0}
           >
             <X size={24} />
           </button>
         )}
+        
+        {/* Placeholder for Logo/Brand Icon - as seen in Hotstar */} 
+        {isEffectivelyExpanded && (
+            <div className="py-4 px-4 w-full">
+                 {/* Replace with actual logo if available */}
+                <span className="text-xl font-bold text-white">Portfolio</span> 
+            </div>
+        )}
+        {!isEffectivelyExpanded && (
+             <div className="pt-4 pb-2 w-full flex justify-center">
+                {/* Collapsed Logo/Icon - e.g. a star or initial */}
+                <span className="text-2xl text-white opacity-80 group-hover:opacity-100">✨</span>
+            </div>
+        )}
 
-        {/* Navigation Items - Compact and Centered */}
-        <div className="flex flex-col w-full h-auto py-4 space-y-1">
+        <nav className="flex flex-col w-full h-auto py-2 space-y-1 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-transparent">
           {navItems.map((item) => (
             <SidebarItem
               key={item.label}
@@ -168,10 +206,21 @@ const Sidebar = () => {
               to={item.to}
               submenu={item.submenu}
               isEffectivelyExpanded={isEffectivelyExpanded}
-              active={location.pathname === item.to}
+              active={location.pathname === item.to || (item.submenu && item.submenu.some(sub => location.pathname.startsWith(sub.to)))}
+              onClick={isMobileOpen ? handleMobileMenuClose : undefined}
+              isSubmenuOpen={openSubmenu === item.label}
+              toggleSubmenu={() => toggleSubmenu(item.label)}
             />
           ))}
-        </div>
+        </nav>
+        
+        {/* Optional: User Profile / Settings link at the bottom if needed */}
+        {isEffectivelyExpanded && (
+            <div className="py-4 px-4 mt-auto w-full border-t border-neutral-700/50">
+                {/* Example: User Profile Link */}
+                {/* <SidebarItem icon={<UserCircle size={24}/>} label="My Profile" to="/profile" isEffectivelyExpanded={isEffectivelyExpanded} active={location.pathname === '/profile'} /> */}
+            </div>
+        )}
       </div>
     </>
   );
